@@ -1,5 +1,11 @@
 ﻿package com.leo.demo;
 
+
+/**
+ * 欢迎页面
+ * shenchenyu 
+ */
+
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -36,7 +42,6 @@ public class WelcomeActivity extends Activity implements OnClickListener {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub 
-		// ZC
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		jumpOther();
@@ -82,8 +87,14 @@ public class WelcomeActivity extends Activity implements OnClickListener {
 					int position, long id) {
 				switch (position) {
 				case 0:
+
 					/*Intent intent = new Intent(ct,InvoiceActivity.class);
 					startActivity(intent);*/
+/*
+//					跳转到invoice发票  ，通过intent
+					Intent intent = new Intent(ct,InvoiceActivity.class);
+					startActivity(intent);*/
+
 					break;
 				case 1:
 					PromptManager.showToast(ct, R.string.gv_txt_2);
