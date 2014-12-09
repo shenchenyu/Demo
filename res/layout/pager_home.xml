@@ -1,0 +1,65 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context=".LoginActivity" >
+
+    <!--
+         <include
+        android:id="@+id/title_bar"
+        layout="@layout/layout_title_bar" />
+    -->
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dip"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/bt_add_bill"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/bt_add_bill" />
+
+        <Button
+            android:id="@+id/bt_see_bill"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/bt_see_bill" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+        <LinearLayout 
+            android:visibility="invisible"
+            android:id="@+id/ll_no_data"
+		    android:layout_width="fill_parent"
+            android:layout_height="fill_parent"    
+            android:gravity="center" 
+            android:orientation="vertical"      
+            >
+           <ImageView 
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:id="@+id/iv_no_data_home"
+               android:src="@drawable/ic_empty_page"
+               />
+           <TextView 
+               style="@style/tv_link_text"
+               android:id="@+id/tv_link_add_bill"
+               android:text="@string/str_quick_add"
+               />
+        </LinearLayout>
+        <ListView
+            android:id="@+id/lv_home_bill"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+        </ListView>
+    </RelativeLayout>
+</LinearLayout>

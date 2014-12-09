@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal" >
+    <CheckBox 
+        style="@null"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        android:id="@+id/cb_item_check"
+        />
+    <ImageView 
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+		android:id="@+id/iv_item_bill_icon"
+		android:src="@drawable/icon_list_bill"
+        />
+    <RelativeLayout 
+        android:layout_gravity="center"
+        android:layout_weight="1"
+	    android:layout_width="0dip"
+	    android:layout_height="wrap_content"
+        >
+        <TextView
+             style="@style/tv_normal_text"
+		    android:id="@+id/tv_item_bill_info"
+		    android:text="Vendor，item1，item2"
+	    	/>
+        <TextView
+            style="@style/tv_below_text"
+            android:layout_below="@id/tv_item_bill_info"
+		    android:id="@+id/tv_item_bill_date"
+		    android:text="2014年11月24日 15:42:18"
+	    	/>
+    </RelativeLayout>
+
+    <Button
+        android:background="@drawable/btn_verical"
+        android:id="@+id/bt_item_operation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="pay" />
+
+</LinearLayout>

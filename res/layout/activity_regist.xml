@@ -1,0 +1,40 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+    <EditText
+        style="@android:attr/textStyle"
+        android:id="@+id/et_phone_number"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/ev_user"
+        android:hint="@string/str_ev_user" />
+	
+    <EditText
+        android:drawableLeft="@drawable/ev_pass"
+        android:id="@+id/et_verical_code"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/str_ev_pass" />
+	<EditText
+        android:drawableLeft="@drawable/ev_pass"
+        android:id="@+id/et_repass_login"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/str_ev_repass" />
+	<Button
+	    android:paddingLeft="30dip"
+	    android:paddingRight="30dip"
+	    android:paddingTop="5dip"
+	    android:paddingBottom="5dip"
+	    	android:layout_gravity="center_horizontal"
+	  	    android:background="@drawable/button"
+        	android:text="@string/str_bt_regist"
+        	android:id="@+id/login"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        />
+
+</LinearLayout>
