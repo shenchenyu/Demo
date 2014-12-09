@@ -43,7 +43,7 @@ public class WelcomeActivity extends Activity implements OnClickListener {
 		setContentView(R.layout.welcome_activity);
 		ViewUtils.inject(this);
 		init();
-
+//		----------------------------------------
 	}
 	private void jumpOther(){
 		boolean flag = SharedPreferencesUtils.getBoolean(this, ContentValue.HAD_LOGIN, true);
@@ -80,8 +80,7 @@ public class WelcomeActivity extends Activity implements OnClickListener {
 					int position, long id) {
 				switch (position) {
 				case 0:
-//					Intent intent = new Intent(ct,InvoiceActivity.class);
-					startActivity(intent);
+					PromptManager.showToast(ct, R.string.gv_txt_1);
 					break;
 				case 1:
 					PromptManager.showToast(ct, R.string.gv_txt_2);
