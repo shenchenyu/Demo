@@ -82,8 +82,8 @@ public class WelcomeActivity extends Activity implements OnClickListener {
 					int position, long id) {
 				switch (position) {
 				case 0:
-//					Intent intent = new Intent(ct,InvoiceActivity.class);
-					startActivity(intent);
+					/*Intent intent = new Intent(ct,InvoiceActivity.class);
+					startActivity(intent);*/
 					break;
 				case 1:
 					PromptManager.showToast(ct, R.string.gv_txt_2);

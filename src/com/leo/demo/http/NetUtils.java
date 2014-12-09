@@ -20,10 +20,8 @@ import com.lidroid.xutils.util.LogUtils;
  *
  */
 public class NetUtils {
-
 	private static HttpGet get;
 	private static HttpPost post;
-
 	/**
 	 * 执行post请求, 访问账户验证
 	 * @param username

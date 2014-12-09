@@ -22,7 +22,14 @@ import com.leo.demo.R;
 import com.leo.demo.bean.Bill;
 import com.leo.demo.ui.base.BasePager;
 import com.leo.demo.utils.CommonUtil;
+import com.leo.demo.utils.ContentValue;
+import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.ViewUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
+import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
 public class HomePager extends BasePager implements OnClickListener, OnItemClickListener {
@@ -30,7 +37,6 @@ public class HomePager extends BasePager implements OnClickListener, OnItemClick
 	private Button bt_add_bill;
 	@ViewInject(R.id.lv_home_bill)
 	private ListView lvBills;
-	
 	@ViewInject(R.id.ll_no_data)
 	private LinearLayout mLLNoData;
 	@ViewInject(R.id.tv_link_add_bill)
@@ -57,12 +63,14 @@ public class HomePager extends BasePager implements OnClickListener, OnItemClick
 	 */
 	@Override
 	public void initData() {
-		mListBills = getBills();
+		getLastesData();
+		//mListBills = getBills();
 		// 1 首先判断本地缓存里面是否有数据。
-		getCacheData();
+		//getCacheData();
+		
 		// 2 如果有数据的话，首先展示缓存里面的数据。。如果没有缓存数据。就直接展示对话框。 
 		// 3然后在去链接服务器。如果服务器有数据，就必须从服务器获取数据，然后替换本地的数据。
-		if(mListBills!=null){
+		/*if(mListBills!=null){
 			mLLNoData.setVisibility(View.INVISIBLE);
 			lvBills.setVisibility(View.VISIBLE);
 			//设置listView适配器显示数据
@@ -72,28 +80,40 @@ public class HomePager extends BasePager implements OnClickListener, OnItemClick
 			mLLNoData.setVisibility(View.VISIBLE);
 			lvBills.setVisibility(View.INVISIBLE);
 			tvQuickAdd.setOnClickListener(this);
-		}
+		}*/
+	}
+	/**
+	 * 获取服务器请求数据
+	 */
+	private void getLastesData() {
+		HttpUtils httpUtils =new HttpUtils();
+		String url = ContentValue.SERVER_URI;
+		httpUtils.send(HttpMethod.POST, url, new RequestCallBack<String>() {
+			@Override
+			public void onFailure(HttpException e, String msg) {
+				// TODO Auto-generated method stub
+				LogUtils.d("failed_MSG:"+msg+";HttpException:"+e.getLocalizedMessage());
+			}
+			@Override
+			public void onSuccess(ResponseInfo<String> resInfo) {
+				String res = resInfo.result;
+				processData(res);
+			}
+		});
+		
 	}
 	private List<Bill> getCacheData() {
 		
 		return null;
 	}
+	List<Bill> result;
 	/**
 	 * 获取页面显示数据
 	 * @return
 	 */
-	private List<Bill> getBills() {
-		List<Bill> result;
-		if(CommonUtil.isNetworkAvailable(ct)==0){//未找到网络，抓取本地缓存数据
-			//getCacheData();//获取本地数据业务逻辑
-			return null;
-		}else{
-			//连s接网络，请求服务器获取最新的数据。
-			result = new ArrayList<Bill>();
-		}
-		return result;
+	protected void processData(String res) {
+		LogUtils.d(res);
 	}
-
 	@Override
 	public void onClick(View v) {
 		Intent intent = null;

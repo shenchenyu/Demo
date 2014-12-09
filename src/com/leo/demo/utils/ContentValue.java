@@ -21,6 +21,7 @@ public abstract class ContentValue {
 	public static String SERVER_URI = "http://concordapi.chinacloudsites.cn/api";
 	public static String VERICAL_REQUEST = "verifycode";
 	public static String VERICAL_PHONE = "Phone";
+	public static String BILL_GETALL = "bill";
 	/***************临时测试的部分***************/
 	public  static String VERICAL_CODE = "55554";
 	/***************网络状态***********/
