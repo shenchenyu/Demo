@@ -90,10 +90,10 @@ public class WelcomeActivity extends Activity implements OnClickListener {
 
 					/*Intent intent = new Intent(ct,InvoiceActivity.class);
 					startActivity(intent);*/
-/*
+
 //					跳转到invoice发票  ，通过intent
 					Intent intent = new Intent(ct,InvoiceActivity.class);
-					startActivity(intent);*/
+					startActivity(intent);
 
 					break;
 				case 1:
