@@ -43,7 +43,7 @@ public class WelcomeActivity extends Activity implements OnClickListener {
 		setContentView(R.layout.welcome_activity);
 		ViewUtils.inject(this);
 		init();
-
+		////hello world
 	}
 	private void jumpOther(){
 		boolean flag = SharedPreferencesUtils.getBoolean(this, ContentValue.HAD_LOGIN, true);
