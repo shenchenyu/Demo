@@ -33,7 +33,6 @@ public class CameraUtils {
                 return null; 
             } 
         } 
- 
         // Create a media file name  
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date()); 
         File mediaFile = null; 
@@ -41,7 +40,6 @@ public class CameraUtils {
             mediaFile = new File(mediaStorageDir.getPath() + File.separator + 
             "IMG_"+ timeStamp + ".jpg"); 
         } 
- 
         return mediaFile; 
     } 
 } 

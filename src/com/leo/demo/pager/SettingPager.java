@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.view.View;
 import android.widget.TextView;
 
-import com.leo.demo.ui.base.BasePager;
 
 public class SettingPager extends BasePager {
 	

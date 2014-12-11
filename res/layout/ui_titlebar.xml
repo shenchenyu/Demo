@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:background="#55C0C0C0"
-    tools:context=".LoginActivity" >
+    tools:context=".RegisterActivity" >
     <TextView 
         android:layout_marginLeft="5.0dip"
         android:id="@+id/tv_back_ui"

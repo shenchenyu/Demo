@@ -23,9 +23,9 @@ public class NetUtils {
 	private static HttpGet get;
 	private static HttpPost post;
 	/**
-	 * 执行post请求, 访问账户验证
-	 * @param username
-	 * @param password
+	 * 执行post请求
+	 * @param url
+	 * @param json
 	 * @return
 	 */
 	public static String doPostOfHttpClient(String url, String json) {
@@ -68,11 +68,9 @@ public class NetUtils {
 	}
 	
 	/**
-	 * 拿着姓名和密码验证.
-	 * @param username
-	 * @param password
-	 * @return 成功: success, 失败: failed
-	 * 		   访问失败时, 返回null
+	 * 
+	 * @param url 服务器地址
+	 * @return 
 	 */
 	public static String doGetOfHttpClient(String url) {
 		// URLEncoder.encode(username) url编码

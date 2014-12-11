@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 /**
  * 
  * @author Scleo
- *
+ * 
  */
 public class SharedPreferencesUtils {
 

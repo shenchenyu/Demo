@@ -5,7 +5,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="16"
+        android:minSdkVersion="8"
         android:targetSdkVersion="17" />
 
     <uses-permission android:name="android.permission.CAMERA" />
@@ -19,20 +19,15 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/CustomTitleBar" >
+        android:theme="@style/CustomTitleBar">
         <activity
             android:name="com.leo.demo.WelcomeActivity"
             android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name="com.leo.demo.AccountPayable" >
         </activity>
         <activity
-            android:name="com.leo.demo.LoginActivity"
+            android:name="com.leo.demo.RegisterActivity"
             android:theme="@style/CustomTitleBar" >
         </activity>
         <activity android:name="com.leo.demo.MainActivity" >
@@ -43,11 +38,19 @@
             android:launchMode="singleInstance"
             android:screenOrientation="portrait" >
         </activity>
-        <activity android:name="com.leo.demo.SplashActivity" >
+        <activity android:name="com.leo.demo.SplashActivity"  
+            android:theme="@android:style/Theme.Black.NoTitleBar"
+            >
+             <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name="com.leo.demo.InvoiceActivity"
             android:label="@string/title_activity_invoice" >
+        </activity>
+        <activity android:name="com.leo.demo.LoginActivity" >
         </activity>
     </application>
 

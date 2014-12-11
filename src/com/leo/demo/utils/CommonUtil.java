@@ -37,7 +37,6 @@ import com.leo.demo.http.NetUtils;
  *
  */
 public class CommonUtil {
-	
 	/**
 	 * Dialog显示框
 	 * @param context

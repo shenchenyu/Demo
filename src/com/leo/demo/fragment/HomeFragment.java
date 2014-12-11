@@ -14,12 +14,12 @@ import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 
 import com.leo.demo.R;
+import com.leo.demo.pager.BasePager;
 import com.leo.demo.pager.HomePager;
-import com.leo.demo.pager.ReportPager;
+import com.leo.demo.pager.CenterPager;
 import com.leo.demo.pager.SettingPager;
 import com.leo.demo.ui.LazyViewPager.OnPageChangeListener;
 import com.leo.demo.ui.MyViewPager;
-import com.leo.demo.ui.base.BasePager;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
@@ -47,7 +47,6 @@ public class HomeFragment extends BaseFragment {
 		public ViewPagerAdapter(List<BasePager> mLists) {
 			this.mPages = mLists;
 		}
-
 		@Override
 		public void destroyItem(ViewGroup container, int position, Object object) {
 			// TODO Auto-generated method stub
@@ -75,7 +74,7 @@ public class HomeFragment extends BaseFragment {
 		//TODO 
 		//修改成josn可随意变动
 		mLists.add(new HomePager(ct));
-		mLists.add(new ReportPager(ct));
+		mLists.add(new CenterPager(ct));
 		mLists.add(new SettingPager(ct));
 		ViewPagerAdapter vpa = new ViewPagerAdapter(mLists);
 		view_pager.setAdapter(vpa);
@@ -96,6 +95,8 @@ public class HomeFragment extends BaseFragment {
 			}
 		});
 		mRadio.check(R.id.rb_tab_left);
+		//首次进入页面 设置默认页面并初始化数据
+		mLists.get(0).initData();
 	}
 
 	@Override

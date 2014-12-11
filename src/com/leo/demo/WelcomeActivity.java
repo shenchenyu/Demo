@@ -25,6 +25,7 @@ import android.widget.TextView;
 import com.leo.demo.utils.ContentValue;
 import com.leo.demo.utils.PromptManager;
 import com.leo.demo.utils.SharedPreferencesUtils;
+import com.leo.demo.utils.StringUtils;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
@@ -44,7 +45,6 @@ public class WelcomeActivity extends Activity implements OnClickListener {
 		// TODO Auto-generated method stub 
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		jumpOther();
 		setContentView(R.layout.welcome_activity);
 		ViewUtils.inject(this);
 		init();
@@ -52,21 +52,8 @@ public class WelcomeActivity extends Activity implements OnClickListener {
 //		----------------leo------------------------
 
 	}
-	private void jumpOther(){
-		boolean flag = SharedPreferencesUtils.getBoolean(this, ContentValue.HAD_LOGIN, true);
-		if(!flag){
-			Intent intent = new Intent(this,MainActivity.class);
-			startActivity(intent);
-			finish();
-		}
-	}
-	/**
-	 * 检测用户登录是否过期
-	 */
-	private void checkLoginOutTime() {
-		// TODO Auto-generated method stub
-		
-	}
+	
+	
 	private void init() {
 		
 		ct = getApplicationContext();
@@ -140,13 +127,15 @@ public class WelcomeActivity extends Activity implements OnClickListener {
 	}
 	@Override
 	public void onClick(View v) {
+		Intent intent;
 		switch (v.getId()) {
 		case R.id.tv_link_signin://登陆
-			Intent intent = new Intent(ct, LoginActivity.class);
+			intent = new Intent(ct, LoginActivity.class);
 			startActivity(intent);
 			break;
 		case R.id.tv_link_signup://注册
-			
+			intent = new Intent(ct, RegisterActivity.class);
+			startActivity(intent);
 			break;	
 		}	
 	}

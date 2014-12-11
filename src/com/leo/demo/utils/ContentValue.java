@@ -7,7 +7,7 @@ package com.leo.demo.utils;
 public abstract class ContentValue {
 	public static final int SOCKET_TIMEOUT = 10000;
 	//Sp文件中记录是否已登录
-	public static final String HAD_LOGIN = "HAD_LOGIN";
+	public static final String SPFILE_TOKEN = "auth_token";
 	public static String[] testValue = new String[]{
 			"2014-01-31	记-1	库存现金 付款￥555.00",
 			"2014-01-31	记-1	库存现金 付款￥666.00",
@@ -22,6 +22,11 @@ public abstract class ContentValue {
 	public static String VERICAL_REQUEST = "verifycode";
 	public static String VERICAL_PHONE = "Phone";
 	public static String BILL_GETALL = "bill";
+	/*****************http参数***********************/
+	public static String CONTENT_TYPE = "Content-Type";
+	public static String ACCEPT_TYPE = "Accept";
+	public static String APPLICATION_JSON = "application/json";
+	
 	/***************临时测试的部分***************/
 	public  static String VERICAL_CODE = "55554";
 	/***************网络状态***********/

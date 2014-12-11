@@ -1,6 +1,5 @@
 package com.leo.demo.pager;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
@@ -18,18 +17,18 @@ import android.widget.TextView;
 
 import com.leo.demo.AccountPayable;
 import com.leo.demo.AddBillActivity;
+import com.leo.demo.InvoiceActivity;
 import com.leo.demo.R;
 import com.leo.demo.bean.Bill;
-import com.leo.demo.ui.base.BasePager;
-import com.leo.demo.utils.CommonUtil;
 import com.leo.demo.utils.ContentValue;
+import com.leo.demo.utils.LogUtils;
 import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
-import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
 public class HomePager extends BasePager implements OnClickListener, OnItemClickListener {
@@ -87,8 +86,12 @@ public class HomePager extends BasePager implements OnClickListener, OnItemClick
 	 */
 	private void getLastesData() {
 		HttpUtils httpUtils =new HttpUtils();
-		String url = ContentValue.SERVER_URI;
-		httpUtils.send(HttpMethod.POST, url, new RequestCallBack<String>() {
+		httpUtils.configUserAgent(null);
+		RequestParams rParam = new RequestParams();
+		rParam.setHeader(ContentValue.CONTENT_TYPE, ContentValue.APPLICATION_JSON);
+		rParam.setHeader(ContentValue.ACCEPT_TYPE, ContentValue.APPLICATION_JSON);
+		String url = ContentValue.SERVER_URI+"/"+ContentValue.BILL_GETALL;
+		httpUtils.send(HttpMethod.POST, url,rParam, new RequestCallBack<String>() {
 			@Override
 			public void onFailure(HttpException e, String msg) {
 				// TODO Auto-generated method stub
@@ -97,6 +100,7 @@ public class HomePager extends BasePager implements OnClickListener, OnItemClick
 			@Override
 			public void onSuccess(ResponseInfo<String> resInfo) {
 				String res = resInfo.result;
+				LogUtils.d("BILL_INFO:"+resInfo.result);
 				processData(res);
 			}
 		});
@@ -119,7 +123,7 @@ public class HomePager extends BasePager implements OnClickListener, OnItemClick
 		Intent intent = null;
 		switch (v.getId()) {
 		case R.id.bt_add_bill:
-			intent = new Intent(ct,AccountPayable.class );
+			intent = new Intent(ct,InvoiceActivity.class );
 			break;
 		case R.id.tv_link_add_bill:
 			intent = new Intent(ct,AddBillActivity.class);

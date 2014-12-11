@@ -13,7 +13,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.leo.demo.R;
-import com.leo.demo.ui.base.BasePager;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 

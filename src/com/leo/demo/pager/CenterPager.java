@@ -5,11 +5,10 @@ import android.graphics.Color;
 import android.view.View;
 import android.widget.TextView;
 
-import com.leo.demo.ui.base.BasePager;
 
-public class ReportPager extends BasePager {
+public class CenterPager extends BasePager {
 	
-	public ReportPager(Context ct) {
+	public CenterPager(Context ct) {
 		super(ct);
 	}
 
@@ -21,11 +20,8 @@ public class ReportPager extends BasePager {
 		textView.setText("Bill数据报表");
 		return textView;
 	}
-
 	@Override
 	public void initData() {
 		// TODO Auto-generated method stub
-
 	}
-
 }
