@@ -22,24 +22,27 @@
     <string name="bill_finished">完结</string>
     <!-- Welcome界面 -->
     <string name="tv_title_welcome">Welcome</string>
-    <string name="gv_txt_1">To Do</string>
+    <!-- <string name="gv_txt_1">To Do</string>
     <string name="gv_txt_2">SchedulePayment</string>
     <string name="gv_txt_3">  Set Up Company</string>
-    <string name="gv_txt_4">  View  Balance</string>
+    <string name="gv_txt_4">  View  Balance</string> -->
+     <string name="gv_txt_1">记一笔</string>
+    <string name="gv_txt_2">付款</string>
+    <string name="gv_txt_3">公司设置</string>
+    <string name="gv_txt_4">余额</string>
     <string name="tv_bottom_welcome">More than one device?</string>
     <string name="tv_link_signin">Sign In</string>
     <string name="tv_link_signup">Sign Up</string>
     <!-- 提示信息 -->
     <string name="str_vercode_empty">验证码不能为空</string>
     <string name="str_vercode_error">验证码不正确</string>
-    <!-- Login界面 -->
+    <!-- Register界面 -->
     <string name="btn_request_code">获取验证码</string>
     <string name="btn_request_recode">后可再次获取</string>
     <string name="btn_change_phone"></string>
     <!-- Other -->
     <string name="bt_add_bill">新建Bill</string>
     <string name="bt_see_bill">查看Bill</string>
-    <string name="str_bt_login">登陆</string>
     <string name="str_request_code">请求验证码</string>
     <string name="str_bt_regist">DONE</string>
     <string name="str_bt_bank">选择银行</string>
