@@ -70,5 +70,15 @@
     <string name="load_error">加載錯誤</string>
     <string name="title_activity_invoice">InvoiceActivity</string>
     <string name="Send">Save &#038;Send for Approval</string>
+    <string name="title_activity_company_inf">CompanyInf</string>
+    <string name="SeeVenders">See Venders</string>
+    <!-- company显示内容 -->
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="com_name">请输入公司名称</string>
+    <string name="com_phone">请输入公司联系方式</string>
+    <string name="com_adress">请选择地址</string>
+    <string name="com_emill">请输入公司邮箱</string>
+    <string name="com_notes">备注</string>
 
 </resources>

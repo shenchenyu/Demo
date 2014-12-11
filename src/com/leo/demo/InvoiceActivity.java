@@ -20,6 +20,7 @@ import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.View.MeasureSpec;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
@@ -31,6 +32,7 @@ import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -49,12 +51,16 @@ public class InvoiceActivity extends Activity implements OnClickListener{
 	private Button btnItem,addmore;
 	private Itemadapter	itemadapter;
 	private LinearLayout notes;
+	private ScrollView scr;
 
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.activity_invoice);
+		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,
+				R.layout.layout_invoice_title_bar);// 设置titleBar 布局文件
 		init();	
 
 	};
@@ -63,11 +69,11 @@ public class InvoiceActivity extends Activity implements OnClickListener{
 		context = this;
 		mImg = (ImageView) findViewById(R.id.ivShow);
 		btnItem = (Button) findViewById(R.id.btnitem);
-		titleinvoice = (RelativeLayout) findViewById(R.id.invoicetitle);
 		spinner = (Spinner) findViewById(R.id.companySpinner);
 		imageview = (ImageView) findViewById(R.id.camera);
 		addmore = (Button) findViewById(R.id.addmore);
 		notes = (LinearLayout) findViewById(R.id.notes);
+		scr = (ScrollView) findViewById(R.id.scrollview);
 		addmore.setOnClickListener(this);
 		imageview.setOnClickListener(this);
 		btnItem.setOnClickListener(this);
@@ -83,10 +89,6 @@ public class InvoiceActivity extends Activity implements OnClickListener{
 		spinner.setVisibility(View.VISIBLE);
 		arrayList  = new ArrayList<String>();
 		arrayList.add("one");
-		arrayList.add("two");
-		arrayList.add("three");
-		arrayList.add("four");
-		arrayList.add("five");
 		listview = (ListView) findViewById(R.id.company);
 		itemadapter = new Itemadapter(this,arrayList,new com.leo.demo.adapter.Itemadapter.Delete() {
 
@@ -102,6 +104,8 @@ public class InvoiceActivity extends Activity implements OnClickListener{
 
 		listview.setAdapter(itemadapter);
 		setListViewHeightBasedOnChildren(listview);
+		scr.smoothScrollTo(0,0);  
+
 
 	}
 
@@ -136,7 +140,6 @@ public class InvoiceActivity extends Activity implements OnClickListener{
 
 		switch (v.getId()) {
 		case R.id.camera:
-			titleinvoice.setVisibility(View.GONE);
 			mImg.setVisibility(View.VISIBLE);
 			Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 			startActivityForResult(intent, REQUEST_CODE_TAKE_PICTURE);

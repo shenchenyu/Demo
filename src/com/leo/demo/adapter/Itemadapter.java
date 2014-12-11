@@ -29,7 +29,7 @@ public class Itemadapter extends BaseAdapter{
 		mInflater = LayoutInflater.from(context);
 		this.arr = arr;
 		arr = new ArrayList<String>();  
-		for(int i=0;i<3;i++){    //listview初始化3个子项  
+		for(int i=0;i<arr.size();i++){    //listview初始化
 			arr.add("");  
 		}  
 	}  
