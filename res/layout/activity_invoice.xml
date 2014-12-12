@@ -22,27 +22,6 @@
             android:visibility="gone" />
 
         <RelativeLayout
-            android:id="@+id/invoicetitle"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" >
-
-            <TextView
-                android:id="@+id/imvoicetitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:layout_gravity="center"
-                android:text="New Invoice" />
-
-            <ImageView
-                android:id="@+id/camera"
-                android:layout_width="32dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:background="@drawable/bl_button_d" />
-        </RelativeLayout>
-
-        <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp" >
