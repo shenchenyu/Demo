@@ -1,8 +1,5 @@
 package com.leo.demo;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -17,12 +14,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.leo.demo.http.NetUtils;
 import com.leo.demo.utils.CommonUtil;
 import com.leo.demo.utils.ContentValue;
 import com.leo.demo.utils.PromptManager;
 import com.leo.demo.utils.StringUtils;
+import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.ViewUtils;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.RequestParams;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
+import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
@@ -91,44 +93,40 @@ public class RegisterActivity extends Activity implements OnClickListener {
 					R.string.str_vercode_empty);
 		} else {
 			// 请求服务器等待服务器返回结果
-			new AsyncTask<String, Void, String>(){
+			String url = ContentValue.SERVER_URI+"/"+ContentValue.VERICAL_REQUEST;
+			url = url+"?"+ContentValue.VERICAL_PHONE+"="+etUsername.getText().toString()+"&"+ContentValue.VERICAL_REQUEST+"="+etVerivalCode.getText().toString();
+			HttpUtils http = new HttpUtils();
+			RequestParams params = new RequestParams();
+			params.setHeader(ContentValue.CONTENT_TYPE, ContentValue.APPLICATION_JSON);
+			params.setHeader(ContentValue.ACCEPT_TYPE, ContentValue.APPLICATION_JSON);
+			http.send(HttpMethod.GET, url,params  ,new RequestCallBack<String>() {
+
 				@Override
-				protected void onPreExecute() {
-					int networkAvailable = CommonUtil.isNetworkAvailable(getApplicationContext());
-					if (networkAvailable == ContentValue.NO_NETWORK) {
-						PromptManager.showToast(getApplicationContext(), "无服务，请检测您的网络状态！");
-						cancel(true);
-					} 
+				public void onFailure(HttpException arg0, String msg) {
+					PromptManager.showToast(getApplicationContext(), msg);
 				}
 				@Override
-				protected void onPostExecute(String result) {
-					JSONObject json;
-					try {
-						json = new JSONObject(result);
-						if (!json.getBoolean("VerifyResult")) {
-							PromptManager.showToast(getApplicationContext(),
-									R.string.str_vercode_error);
-						} else {
-							// 创建意图跳转界面s
-							Intent intent = new Intent(getApplicationContext(),
-									MainActivity.class);
-							startActivity(intent);
-						}
-					} catch (JSONException e) {
-						e.printStackTrace();
-					}
+				public void onSuccess(ResponseInfo<String> info) {
+					LogUtils.d("info:"+info.result);
+					parseJson2Result(info.result);
 				}
-				@Override
-				protected String doInBackground(String... params) {
-					String url = ContentValue.SERVER_URI+"/"+ContentValue.VERICAL_REQUEST;
-					url = url+"?"+ContentValue.VERICAL_PHONE+"="+params[0]+"&"+ContentValue.VERICAL_REQUEST+"="+params[1];
-					LogUtils.d("url:"+url);
-					return NetUtils.doGetOfHttpClient(url);
-				}}.execute(new String[]{etUsername.getText().toString(),
-						etVerivalCode.getText().toString()});
+			});
 		}
 	}
-
+	/**
+	 * 将服务器返回的接送结果 解析json
+	 * @param result
+	 */
+	protected void parseJson2Result(String result) {
+		LogUtils.d("parse...json...:"+result);
+		Intent intent = new Intent(this,GuideActivity.class);
+		Bundle  bundle = new Bundle();
+		bundle.putCharSequence("phone", etUsername.getText().toString());
+		intent.putExtra("user",bundle);
+		//方式1：调用webservice登录Api 登录并跳转
+		//方式2：直接跳转，省略登录步骤。
+		startActivity(intent);
+	}
 	/**
 	 * 请求验证码
 	 */
@@ -148,7 +146,6 @@ public class RegisterActivity extends Activity implements OnClickListener {
 			changeBotton();
 		}
 	}
-
 	/**
 	 * 改变button样式。
 	 */

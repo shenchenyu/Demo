@@ -1,4 +1,4 @@
-package com.leo.demo;
+package com.leo.demo.bean;
 
 public class MyListItem {
 	private String name;

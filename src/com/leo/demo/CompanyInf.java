@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.leo.demo.adapter.MyAdapter;
+import com.leo.demo.bean.MyListItem;
 import com.leo.demo.db.DBManager;
 import android.app.Activity;
 import android.database.Cursor;

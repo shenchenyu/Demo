@@ -10,19 +10,13 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.leo.demo.R;
-import com.lidroid.xutils.ViewUtils;
-import com.lidroid.xutils.view.annotation.ViewInject;
 
 public abstract class BaseTitleActivity extends Activity {
-	public Context ct;
-	public int layout;
-	@ViewInject(R.id.btn_left)
+	protected Context ct;
+	protected int layout;
 	protected Button sBtnLeft;
-	@ViewInject(R.id.imgbtn_left)
 	protected ImageButton sImgBtnLeft;
-	@ViewInject(R.id.btn_right)
 	protected ImageButton sImgBtnRight;
-	@ViewInject(R.id.tv_txt_title)
 	protected TextView sTvTitle;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +24,7 @@ public abstract class BaseTitleActivity extends Activity {
 		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		ct = getApplicationContext();
 		layout = R.layout.layout_title_bar;
-		init();
+		initTitleBar();
 	}
 	@Override
 	protected void onResume() {
@@ -40,9 +34,12 @@ public abstract class BaseTitleActivity extends Activity {
 	protected void onPause() {
 		super.onPause();
 	}
-	protected void init() {
+	protected void initTitleBar() {
 		View view = View.inflate(ct, layout, null);
-		ViewUtils.inject(view);
+		sTvTitle =(TextView) view.findViewById(R.id.tv_txt_title);
+		sBtnLeft = (Button) view.findViewById(R.id.btn_left);
+		sImgBtnLeft = (ImageButton) view.findViewById(R.id.imgbtn_left);
+		sImgBtnRight = (ImageButton) view.findViewById(R.id.imgbtn_right);
 	}
 	protected abstract void initView();
 	protected void initActionBar() {

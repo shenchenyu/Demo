@@ -26,7 +26,6 @@ public class LoginActivity extends BaseTitleActivity {
 	private EditText etPwd;
 	@ViewInject(R.id.et_username)
 	private EditText etUsername;
-	@ViewInject(R.id.login)
 	private Button login;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -34,17 +33,12 @@ public class LoginActivity extends BaseTitleActivity {
 		setContentView(R.layout.activity_login);
 		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,
 				super.layout);// 设置titleBar 布局文件
+		initView();
 		
-		ViewUtils.inject(this);
 	}
 	@Override
-	protected void init() {
-		login.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				checkLogin();
-			}
-		});
+	protected void initTitleBar() {
+		sTvTitle.setText(getResources().getString(R.string.tv_title_login));
 	}
 	protected void checkLogin() {
 		if(StringUtils.isEmpty(etUsername.getText().toString())){
@@ -65,7 +59,6 @@ public class LoginActivity extends BaseTitleActivity {
 				LogUtils.d(msg);
 				e.printStackTrace();
 			}
-
 			@Override
 			public void onSuccess(ResponseInfo<String> info) {
 				// TODO Auto-generated method stub
@@ -84,6 +77,13 @@ public class LoginActivity extends BaseTitleActivity {
 	}
 	@Override
 	protected void initView() {
-		sTvTitle.setText(getResources().getString(R.string.tv_title_login));
+		ViewUtils.inject(this);
+		login = (Button) findViewById(R.id.btn_login);
+		login.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				checkLogin();
+			}
+		});
 	};
 }

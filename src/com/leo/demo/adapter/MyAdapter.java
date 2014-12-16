@@ -2,7 +2,7 @@ package com.leo.demo.adapter;
 
 import java.util.List;
 
-import com.leo.demo.MyListItem;
+import com.leo.demo.bean.MyListItem;
 
 import android.content.Context;
 import android.view.View;

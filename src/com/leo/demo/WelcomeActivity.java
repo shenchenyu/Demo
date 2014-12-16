@@ -50,7 +50,6 @@ public class WelcomeActivity extends Activity implements OnClickListener {
 		init();
 
 //		----------------leo------------------------
-
 	}
 	
 	

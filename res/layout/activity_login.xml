@@ -22,7 +22,7 @@
 	    	android:layout_gravity="center_horizontal"
 	  	    android:background="@drawable/btn_bottom_bg"
         	android:text="@string/tv_title_login"
-        	android:id="@+id/login"
+        	android:id="@+id/btn_login"
 	        android:layout_width="fill_parent"
 	        android:layout_height="wrap_content"
 	        />

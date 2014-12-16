@@ -1,0 +1,102 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="5dip" >
+
+    <ImageView
+        android:id="@+id/iv_pin_lock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dip"
+        android:layout_marginTop="20dip"
+        android:src="@drawable/pin_ic_app_lock" />
+
+    <TextView
+        android:id="@+id/tv_code_guide"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:paddingLeft="20dip"
+        android:paddingRight="20dip"
+        android:text="@string/str_tv_pin_content" />
+ <EditText
+        android:id="@+id/et_pin_guide"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/et_pin_hint" />
+    <LinearLayout
+        android:visibility="gone"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dip"
+        android:orientation="horizontal" >
+
+        <EditText
+            android:id="@+id/et_pin_1"
+            style="@style/et_pin_pwd" />
+
+        <EditText
+            android:id="@+id/et_pin_2"
+            style="@style/et_pin_pwd" />
+
+        <EditText
+            android:id="@+id/et_pin_3"
+            style="@style/et_pin_pwd" />
+
+        <EditText
+            android:id="@+id/et_pin_4"
+            style="@style/et_pin_pwd" />
+
+        <EditText
+            android:id="@+id/et_pin_5"
+            style="@style/et_pin_pwd" />
+
+        <EditText
+            android:id="@+id/et_pin_6"
+            style="@style/et_pin_pwd" />
+    </LinearLayout>
+
+    <TextView
+        android:textColor="@color/link_text_color"
+        android:id="@+id/tv_skip_guide"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:text="@string/btn_skip_guide" />
+
+    <Button
+        android:visibility="invisible"
+        android:layout_gravity="bottom"
+        android:id="@+id/btn_next_guide"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_bottom_bg"
+        android:text="@string/btn_next_guide" />
+
+    <!--
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/btn_skip_guide"
+            android:layout_weight="2"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:text="@string/btn_skip_guide"
+            android:background="@drawable/btn_bottom_bg" />
+        <Button
+            android:layout_marginLeft="5dip"
+            android:text="@string/btn_next_guide"
+            android:id="@+id/btn_next_guide"
+            android:layout_weight="1"
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:background="@drawable/btn_bottom_bg" />
+    </LinearLayout>   -->
+
+</LinearLayout>
