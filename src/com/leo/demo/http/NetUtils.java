@@ -60,7 +60,7 @@ public class NetUtils {
 			if (statusCode == 200) {
 				return EntityUtils.toString(result, ContentValue.ENCODING);
 			}else{
-				return EntityUtils.toString(result, ContentValue.ENCODING);
+				return ContentValue.ERROR_MSG;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

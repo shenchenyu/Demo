@@ -74,7 +74,6 @@ public class GuideActivity extends BaseTitleActivity implements OnClickListener 
 	}
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		//super.onk
 		LogUtils.d("KeyCode:"+keyCode);
 		return super.onKeyDown(keyCode, event);
 	}
@@ -108,6 +107,8 @@ public class GuideActivity extends BaseTitleActivity implements OnClickListener 
 	 * 跳转下一步骤
 	 */
 	private void goNext(){
+		Bundle bundle = intent.getExtras();
+		User user = (User) bundle.get("user");
 		//开启意图跳转首页
 		intent.setClass(this, MainActivity.class);
 		startActivity(intent);

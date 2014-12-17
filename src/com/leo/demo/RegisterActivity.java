@@ -1,6 +1,5 @@
 package com.leo.demo;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,27 +11,21 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.leo.demo.bean.User;
 import com.leo.demo.bean.VerifyCode;
 import com.leo.demo.http.NetUtils;
+import com.leo.demo.ui.base.BaseTitleActivity;
 import com.leo.demo.utils.CommonUtil;
 import com.leo.demo.utils.ContentValue;
 import com.leo.demo.utils.PromptManager;
 import com.leo.demo.utils.StringUtils;
-import com.lidroid.xutils.HttpUtils;
 import com.lidroid.xutils.ViewUtils;
-import com.lidroid.xutils.exception.HttpException;
-import com.lidroid.xutils.http.RequestParams;
-import com.lidroid.xutils.http.ResponseInfo;
-import com.lidroid.xutils.http.callback.RequestCallBack;
-import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
-public class RegisterActivity extends Activity implements OnClickListener {
+public class RegisterActivity extends BaseTitleActivity implements OnClickListener {
 	@ViewInject(R.id.btn_done_regist)
 	private Button login;
 	@ViewInject(R.id.btn_request_code)
@@ -46,19 +39,18 @@ public class RegisterActivity extends Activity implements OnClickListener {
 	@ViewInject(R.id.tv_txt_title)
 	private TextView mTitle;
 	
-	private PopupWindow mPopup;
 	private int mSeconds = 60;
 	private boolean mTimerRunning = true;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
 		setContentView(R.layout.activity_regist);
 		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,
-				R.layout.layout_title_bar);// 设置titleBar 布局文件
-		init();
+				layout);// 设置titleBar 布局文件
+		initView();
 	}
-	private void init() {
+	@Override
+	protected void initView() {
 		ViewUtils.inject(this);
 		String localPhone = getPhone();
 		login.setOnClickListener(this);
@@ -142,6 +134,9 @@ public class RegisterActivity extends Activity implements OnClickListener {
 		}
 		return;
 	}
+	/**
+	 * 注册用户
+	 */
 	private void regist() {
 		String url = ContentValue.SERVER_URL+"/"+ContentValue.REGIST_URI;
 		//创建User Bean对象封装数据
@@ -156,22 +151,20 @@ public class RegisterActivity extends Activity implements OnClickListener {
 			protected String doInBackground(String... params) {
 				//创建网络连接对象
 				NetUtils net = new NetUtils();
+				LogUtils.d("user:"+params[1]);
 				return net.doPostOfHttpClient(params[0], params[1]);//发送请求
 			}
 			@Override
 			protected void onPostExecute(String result) {
 				if(ContentValue.ERROR_MSG.equals(result)){
 					//服务器返回false
-					PromptManager.showToast(getApplicationContext(), "验证失败");
+					PromptManager.showToast(getApplicationContext(), "服务器异常");
 					return;
 				}
+				LogUtils.d("注册："+result);
 				goNext(CommonUtil.json2Bean(result, User.class));
 			}
 		}.execute(new String[]{url,json});
-	}
-	protected void resetButton() {
-		// TODO Auto-generated method stub
-		
 	}
 	/**
 	 * 跳转下一步骤
@@ -215,24 +208,26 @@ public class RegisterActivity extends Activity implements OnClickListener {
 	 * 60秒倒计时，改变button样式。
 	 */
 	private void changeBotton() {
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				Message msg;
-				while (mTimerRunning) {
-					msg = Message.obtain();//获取一个消息对象
-					msg.arg1 = mSeconds;//设置参数
-					msg.what = 0;//参数类型
-					handle.sendMessage(msg);//发送消息
-					mSeconds--;
-					try {
-						Thread.sleep(1000);//休眠1秒
-					} catch (InterruptedException e) {
-						e.printStackTrace();
+		if(mTaskThread==null)
+			mTaskThread = new Thread(new Runnable() {
+				@Override
+				public void run() {
+					Message msg;
+					while (mTimerRunning) {
+						msg = Message.obtain();//获取一个消息对象
+						msg.arg1 = mSeconds;//设置参数
+						msg.what = 0;//参数类型
+						handle.sendMessage(msg);//发送消息
+						mSeconds--;
+						try {
+							Thread.sleep(1000);//休眠1秒
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
 					}
 				}
-			}
-		}).start();
+			});
+		mTaskThread.start();
 	}
 	private Handler handle = new Handler() {
 		@Override
@@ -256,8 +251,12 @@ public class RegisterActivity extends Activity implements OnClickListener {
 						.getString(R.string.btn_request_code));
 				// login.setVisibility(View.INVISIBLE);
 				mTimerRunning = false;
+				//销毁线程
+				mSeconds = 60;
+				mTaskThread = null;
 			}
 		}
 	};
 	private TelephonyManager mTeleManager;
+	private Thread mTaskThread;
 }
