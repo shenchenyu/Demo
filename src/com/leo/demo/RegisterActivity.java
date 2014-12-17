@@ -12,8 +12,12 @@ import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.leo.demo.bean.User;
+import com.leo.demo.bean.VerifyCode;
+import com.leo.demo.http.NetUtils;
 import com.leo.demo.utils.CommonUtil;
 import com.leo.demo.utils.ContentValue;
 import com.leo.demo.utils.PromptManager;
@@ -29,7 +33,7 @@ import com.lidroid.xutils.util.LogUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
 public class RegisterActivity extends Activity implements OnClickListener {
-	@ViewInject(R.id.btn_done_login)
+	@ViewInject(R.id.btn_done_regist)
 	private Button login;
 	@ViewInject(R.id.btn_request_code)
 	private Button reqPhoneCode;
@@ -41,6 +45,8 @@ public class RegisterActivity extends Activity implements OnClickListener {
 	private Button mBtnBack;
 	@ViewInject(R.id.tv_txt_title)
 	private TextView mTitle;
+	
+	private PopupWindow mPopup;
 	private int mSeconds = 60;
 	private boolean mTimerRunning = true;
 	@Override
@@ -62,18 +68,25 @@ public class RegisterActivity extends Activity implements OnClickListener {
 		if (!StringUtils.isEmpty(localPhone))
 			etUsername.setText(localPhone);
 	}
+	/**
+	 * 获取本机号码
+	 * @return
+	 */
 	private String getPhone() {
 		mTeleManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
 		LogUtils.d(mTeleManager.getLine1Number());
-		return mTeleManager.getLine1Number();
+		String phone = mTeleManager.getLine1Number();
+		phone = phone.replace("+86", "");
+		LogUtils.d("截取后的phone："+phone);
+		return phone;
 	}
 	/**
 	 * 点击事件
 	 */
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.btn_done_login:// 登陆
-			checkLogin();
+		case R.id.btn_done_regist:// 检验注册
+			checkVerifyCode();
 			break;
 		case R.id.btn_request_code:// 获取
 			requestVercicalCode();
@@ -84,33 +97,33 @@ public class RegisterActivity extends Activity implements OnClickListener {
 			break;
 		}
 	}
-
-	private void checkLogin() {
-		// 1.获取验证码输入的内容，并校验是否与服务器一致
+	/**
+	 * 校验验证码
+	 */
+	private void checkVerifyCode() {
 		String etCode = etVerivalCode.getText().toString();
 		if (StringUtils.isEmpty(etCode)) {
 			PromptManager.showToast(getApplicationContext(),
 					R.string.str_vercode_empty);
 		} else {
+			if(etCode.length()<6){
+				return;
+			}
 			// 请求服务器等待服务器返回结果
 			String url = ContentValue.SERVER_URI+"/"+ContentValue.VERICAL_REQUEST;
 			url = url+"?"+ContentValue.VERICAL_PHONE+"="+etUsername.getText().toString()+"&"+ContentValue.VERICAL_REQUEST+"="+etVerivalCode.getText().toString();
-			HttpUtils http = new HttpUtils();
-			RequestParams params = new RequestParams();
-			params.setHeader(ContentValue.CONTENT_TYPE, ContentValue.APPLICATION_JSON);
-			params.setHeader(ContentValue.ACCEPT_TYPE, ContentValue.APPLICATION_JSON);
-			http.send(HttpMethod.GET, url,params  ,new RequestCallBack<String>() {
-
+			new AsyncTask<String, Void, String>() {
 				@Override
-				public void onFailure(HttpException arg0, String msg) {
-					PromptManager.showToast(getApplicationContext(), msg);
+				protected String doInBackground(String... params) {
+					NetUtils net = new NetUtils();
+					return net.doGetOfHttpClient(params[0]);
 				}
 				@Override
-				public void onSuccess(ResponseInfo<String> info) {
-					LogUtils.d("info:"+info.result);
-					parseJson2Result(info.result);
+				protected void onPostExecute(String result) {
+					LogUtils.d("服务器返回校验结果："+result);
+					parseJson2Result(result);
 				}
-			});
+			}.execute(url);
 		}
 	}
 	/**
@@ -118,11 +131,57 @@ public class RegisterActivity extends Activity implements OnClickListener {
 	 * @param result
 	 */
 	protected void parseJson2Result(String result) {
-		LogUtils.d("parse...json...:"+result);
+		VerifyCode vc = CommonUtil.json2Bean(result, VerifyCode.class);
+		LogUtils.d("verifycode:"+vc.isVerifyResult());
+		if(vc!=null&&vc.isVerifyResult()){//手机验证校验成功
+			//调用注册Api创建用户
+			regist();
+		}else{
+			PromptManager.showToast(getApplicationContext(), getResources().getString(R.string.str_vercode_error));
+			return;
+		}
+		return;
+	}
+	private void regist() {
+		String url = ContentValue.SERVER_URL+"/"+ContentValue.REGIST_URI;
+		//创建User Bean对象封装数据
+		User user = new User();
+		user.setPhone(etUsername.getText().toString());
+		user.setPassword(etVerivalCode.getText().toString());
+		user.setConfirmPassword(etVerivalCode.getText().toString());
+		//将对象转换成json字符串提交服务器
+		String json = CommonUtil.bean2Json(user);
+		new AsyncTask<String, Void, String>() {
+			@Override
+			protected String doInBackground(String... params) {
+				//创建网络连接对象
+				NetUtils net = new NetUtils();
+				return net.doPostOfHttpClient(params[0], params[1]);//发送请求
+			}
+			@Override
+			protected void onPostExecute(String result) {
+				if(ContentValue.ERROR_MSG.equals(result)){
+					//服务器返回false
+					PromptManager.showToast(getApplicationContext(), "验证失败");
+					return;
+				}
+				goNext(CommonUtil.json2Bean(result, User.class));
+			}
+		}.execute(new String[]{url,json});
+	}
+	protected void resetButton() {
+		// TODO Auto-generated method stub
+		
+	}
+	/**
+	 * 跳转下一步骤
+	 * @param user
+	 */
+	private void goNext(User user) {
 		Intent intent = new Intent(this,GuideActivity.class);
 		Bundle  bundle = new Bundle();
-		bundle.putCharSequence("phone", etUsername.getText().toString());
-		intent.putExtra("user",bundle);
+		bundle.putSerializable("user", user);
+		intent.putExtras(bundle);
 		//方式1：调用webservice登录Api 登录并跳转
 		//方式2：直接跳转，省略登录步骤。
 		startActivity(intent);
@@ -137,17 +196,23 @@ public class RegisterActivity extends Activity implements OnClickListener {
 		} else {
 			new AsyncTask<String, Void, String>() {
 				@Override
+				protected void onPreExecute() {
+					changeBotton();
+				};
+				@Override
 				protected String doInBackground(String... params) {
 					// 通知服务器发送短信验证码，更新button按钮动作。
-					CommonUtil.noticeSMSCode(etUsername.getText().toString());
-					return null;
+					return CommonUtil.noticeSMSCode(etUsername.getText().toString());
+				}
+				@Override
+				protected void onPostExecute(String result) {
+					
 				}
 			}.execute("");
-			changeBotton();
 		}
 	}
 	/**
-	 * 改变button样式。
+	 * 60秒倒计时，改变button样式。
 	 */
 	private void changeBotton() {
 		new Thread(new Runnable() {
@@ -155,13 +220,13 @@ public class RegisterActivity extends Activity implements OnClickListener {
 			public void run() {
 				Message msg;
 				while (mTimerRunning) {
-					msg = Message.obtain();
-					msg.arg1 = mSeconds;
-					msg.what = 0;
-					handle.sendMessage(msg);
+					msg = Message.obtain();//获取一个消息对象
+					msg.arg1 = mSeconds;//设置参数
+					msg.what = 0;//参数类型
+					handle.sendMessage(msg);//发送消息
 					mSeconds--;
 					try {
-						Thread.sleep(1000);
+						Thread.sleep(1000);//休眠1秒
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}

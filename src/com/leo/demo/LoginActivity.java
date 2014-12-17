@@ -38,7 +38,7 @@ public class LoginActivity extends BaseTitleActivity {
 	}
 	@Override
 	protected void initTitleBar() {
-		sTvTitle.setText(getResources().getString(R.string.tv_title_login));
+		//sTvTitle.setText(getResources().getString(R.string.tv_title_login));
 	}
 	protected void checkLogin() {
 		if(StringUtils.isEmpty(etUsername.getText().toString())){

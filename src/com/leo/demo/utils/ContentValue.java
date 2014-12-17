@@ -18,7 +18,10 @@ public abstract class ContentValue {
 	/**
 	 * 服务器地址
 	 */
-	public static String SERVER_URI = "http://concordapi.chinacloudsites.cn/api";
+	
+	public static String SERVER_URL = "http://concordyaapi.chinacloudsites.cn/api";
+	public static String SERVER_URI = "http://concordyaapi.chinacloudsites.cn/api";
+	public static String REGIST_URI = "account/register";
 	public static String VERICAL_REQUEST = "verifycode";
 	public static String VERICAL_PHONE = "Phone";
 	public static String BILL_GETALL = "bill";
@@ -26,7 +29,8 @@ public abstract class ContentValue {
 	public static String CONTENT_TYPE = "Content-Type";
 	public static String ACCEPT_TYPE = "Accept";
 	public static String APPLICATION_JSON = "application/json";
-	
+	/*****************服务器返回状态************************/
+	public static final String ERROR_MSG = "error";
 	/***************临时测试的部分***************/
 	public  static String VERICAL_CODE = "55554";
 	/***************网络状态***********/

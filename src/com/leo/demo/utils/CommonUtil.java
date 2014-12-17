@@ -30,6 +30,7 @@ import android.view.ViewGroup;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import com.google.gson.Gson;
 import com.leo.demo.http.NetUtils;
 /**
  * 
@@ -250,14 +251,31 @@ public class CommonUtil {
 	/**
 	 * 通知服务器，发送短信验证码到指定号码
 	 */
-	public static void noticeSMSCode(String number) {
+	public static String noticeSMSCode(String number) {
 		String url = ContentValue.SERVER_URI+"/"+ContentValue.VERICAL_REQUEST;
-		JSONObject js = new JSONObject();
-		try {
-			js.put("Phone", number);
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		NetUtils.doPostOfHttpClient(url, js.toString());
+		NetUtils net = new NetUtils();
+		return net.doPostOfHttpClientFor(url, "="+number);
+	}
+	/**
+	 * 将对象转换成json字符串
+	 * @param t bean对象
+	 * @return
+	 */
+	public static <T> String bean2Json(T t){
+		Gson gs = new Gson();
+		String json = gs.toJson(t);
+		//LogUtils.d("转换的结果："+json);
+		return json;
+	}
+	/**
+	 * 将json映射成bean对象
+	 * @param result json字符串
+	 * @param clazz bean对象字节码
+	 * @return
+	 */
+	public static <T>T json2Bean(String result,Class<T> clazz){
+		Gson gs = new Gson();
+		T t = gs.fromJson(result, clazz);
+		return t;
 	}
 }

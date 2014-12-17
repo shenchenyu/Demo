@@ -1,5 +1,8 @@
 package com.leo.demo.ui.base;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
@@ -14,10 +17,7 @@ import com.leo.demo.R;
 public abstract class BaseTitleActivity extends Activity {
 	protected Context ct;
 	protected int layout;
-	protected Button sBtnLeft;
-	protected ImageButton sImgBtnLeft;
-	protected ImageButton sImgBtnRight;
-	protected TextView sTvTitle;
+	private static final List<BaseTitleActivity> mActivities = new LinkedList<BaseTitleActivity>();
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -35,11 +35,6 @@ public abstract class BaseTitleActivity extends Activity {
 		super.onPause();
 	}
 	protected void initTitleBar() {
-		View view = View.inflate(ct, layout, null);
-		sTvTitle =(TextView) view.findViewById(R.id.tv_txt_title);
-		sBtnLeft = (Button) view.findViewById(R.id.btn_left);
-		sImgBtnLeft = (ImageButton) view.findViewById(R.id.imgbtn_left);
-		sImgBtnRight = (ImageButton) view.findViewById(R.id.imgbtn_right);
 	}
 	protected abstract void initView();
 	protected void initActionBar() {
