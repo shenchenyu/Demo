@@ -1,62 +1,70 @@
 package com.leo.demo.http;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.ParseException;
 import org.apache.http.StatusLine;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.HttpRequestRetryHandler;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
-import org.apache.http.entity.ByteArrayEntity;
+import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.AbstractHttpClient;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.protocol.SyncBasicHttpContext;
+import org.apache.http.util.EntityUtils;
 
 import com.leo.demo.utils.ContentValue;
 import com.leo.demo.utils.IOUtils;
+import com.leo.demo.utils.LogUtils;
 import com.leo.demo.utils.StringUtils;
-import com.lidroid.xutils.util.LogUtils;
 
 /**
- * 
  * @author Scleo
- *
  */
 public class HttpHelper {
-
-	public static final String URL = ContentValue.SERVER_URI;
-
+	
 	/** get请求，获取返回字符串内容 */
-	public static HttpResult get(String url) {
+	public static HttpResult get(String url,String type) {
 		HttpGet httpGet = new HttpGet(url);
-		return execute(url, httpGet);
+		return execute(url, httpGet,type);
 	}
 
 	/** post请求，获取返回字符串内容 */
-	public static HttpResult post(String url, byte[] bytes) {
+	public static HttpResult post(String url,String json,String type) {
 		HttpPost httpPost = new HttpPost(url);
-		ByteArrayEntity byteArrayEntity = new ByteArrayEntity(bytes);
-		httpPost.setEntity(byteArrayEntity);
-		return execute(url, httpPost);
+		LogUtils.d("HttpHelper:(url："+url+"json:+"+json+")");
+		StringEntity strEntity;
+		try {
+			strEntity = new StringEntity(json,ContentValue.ENCODING);
+			httpPost.setEntity(strEntity);
+			return execute(url, httpPost,type);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	/** 下载 */
-	public static HttpResult download(String url) {
+	public static HttpResult download(String url,String type) {
 		HttpGet httpGet = new HttpGet(url);
-		return execute(url, httpGet);
+		return execute(url, httpGet,type);
 	}
 
 	/** 执行网络访问 */
-	private static HttpResult execute(String url, HttpRequestBase requestBase) {
+	private static HttpResult execute(String url, HttpRequestBase requestBase,String contentType) {
 		boolean isHttps = url.startsWith("https://");//判断是否需要采用https
 		AbstractHttpClient httpClient = HttpClientFactory.create(isHttps);
 		HttpContext httpContext = new SyncBasicHttpContext(new BasicHttpContext());
 		HttpRequestRetryHandler retryHandler = httpClient.getHttpRequestRetryHandler();//获取重试机制
+		requestBase.setHeader(ContentValue.CONTENT_TYPE, contentType);
+		requestBase.setHeader(ContentValue.ACCEPT_TYPE, ContentValue.APPLICATION_JSON);
 		int retryCount = 0;
 		boolean retry = true;
 		while (retry) {
@@ -68,7 +76,7 @@ public class HttpHelper {
 			} catch (Exception e) {
 				IOException ioException = new IOException(e.getMessage());
 				retry = retryHandler.retryRequest(ioException, ++retryCount, httpContext);//把错误异常交给重试机制，以判断是否需要采取从事
-				LogUtils.d(e.getMessage());
+				LogUtils.e(e.getMessage());
 			}
 		}
 		return null;
@@ -98,24 +106,13 @@ public class HttpHelper {
 			if (!StringUtils.isEmpty(mStr)) {
 				return mStr;
 			}
-			InputStream inputStream = getInputStream();
-			ByteArrayOutputStream out = null;
-			if (inputStream != null) {
-				try {
-					out = new ByteArrayOutputStream();
-					byte[] buffer = new byte[1024 * 4];
-					int len = -1;
-					while ((len = inputStream.read(buffer)) != -1) {
-						out.write(buffer, 0, len);
-					}
-					byte[] data = out.toByteArray();
-					mStr = new String(data, "utf-8");
-				} catch (Exception e) {
-					LogUtils.e(e.toString());
-				} finally {
-					IOUtils.close(out);
-					close();
-				}
+			HttpEntity entity = mResponse.getEntity();
+			try {
+				mStr = EntityUtils.toString(entity, ContentValue.ENCODING);
+			} catch (ParseException e) {
+				LogUtils.e(e.getMessage());
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 			return mStr;
 		}

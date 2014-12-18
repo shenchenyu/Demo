@@ -26,9 +26,11 @@ public abstract class ContentValue {
 	public static String VERICAL_PHONE = "Phone";
 	public static String BILL_GETALL = "bill";
 	/*****************http参数***********************/
-	public static String CONTENT_TYPE = "Content-Type";
-	public static String ACCEPT_TYPE = "Accept";
-	public static String APPLICATION_JSON = "application/json";
+	public static final String CONTENT_TYPE = "Content-Type";
+	public static final String ACCEPT_TYPE = "Accept";
+	public static final String APPLICATION_JSON = "application/json";
+	public static final String APPLICATION_FORM = "application/x-www-form-urlencoded";
+	public static final String APPLICATION_XML = "application/xml";
 	/*****************服务器返回状态************************/
 	public static final String ERROR_MSG = "error";
 	/***************临时测试的部分***************/

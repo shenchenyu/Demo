@@ -32,8 +32,7 @@ public class NetUtils {
 		client = new DefaultHttpClient();
 	}
 	/**
-	 * 执行post请求
-	 * 
+	 * 执行post请求,form内容格式
 	 * @param url
 	 * @param json
 	 * @return
@@ -56,11 +55,13 @@ public class NetUtils {
 			// 获取服务器返回的状态码
 			StatusLine statusLine = response.getStatusLine(); // 获取状态行对象,
 			int statusCode = statusLine.getStatusCode(); // 从状态行中获取状态码
-			HttpEntity result = response.getEntity();
+			HttpEntity resultServer = response.getEntity();
+			// 访问成功, 获取服务器返回的数据
+			String result = EntityUtils.toString(resultServer, ContentValue.ENCODING);
 			if (statusCode == 200) {
-				return EntityUtils.toString(result, ContentValue.ENCODING);
+				return result;
 			}else{
-				return ContentValue.ERROR_MSG;
+				return ContentValue.ERROR_MSG+":"+result;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -69,12 +70,7 @@ public class NetUtils {
 		}
 		return null;
 	}
-	/**
-	 * 执行post请求
-	 * @param url
-	 * @param json
-	 * @return
-	 */
+	/*** 执行post请求,form内容格式 **/
 	public String doPostOfHttpClientFor(String url, String json) {
 		post = new HttpPost(url);
 		// 设置请求的参数
@@ -94,14 +90,12 @@ public class NetUtils {
 			StatusLine statusLine = response.getStatusLine(); // 获取状态行对象,
 			int statusCode = statusLine.getStatusCode(); // 从状态行中获取状态码
 			HttpEntity resultServer = response.getEntity();
+			// 访问成功, 获取服务器返回的数据
+			String result = EntityUtils.toString(resultServer, ContentValue.ENCODING);
 			if (statusCode == 200) {
-				// 访问成功, 获取服务器返回的数据
-				String result = EntityUtils.toString(resultServer, ContentValue.ENCODING);
-				LogUtils.d("结果："+result);
 				return result;
 			}else{
-				LogUtils.d(statusCode+".....");
-				return ContentValue.ERROR_MSG;
+				return ContentValue.ERROR_MSG+":"+result;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -111,9 +105,7 @@ public class NetUtils {
 		return null;
 	}
 
-	/**
-	 * 关闭http连接
-	 */
+	/** * 关闭http连接** */
 	private void closeConn() {
 		if (client != null) {
 			// 获得连接管理器, 关闭连接
@@ -146,13 +138,15 @@ public class NetUtils {
 			LogUtils.d("访问地址：" + url);
 			// LogUtils.d("参数："+json.toString());
 			LogUtils.d("响应码：" + statusCode);
+			// 访问成功, 获取服务器返回的数据
+			HttpEntity entity = response.getEntity();
+			String result = EntityUtils.toString(entity,
+					ContentValue.ENCODING);
 			if (statusCode == 200) {
-				// 访问成功, 获取服务器返回的数据
-				HttpEntity entity = response.getEntity();
-				String result = EntityUtils.toString(entity,
-						ContentValue.ENCODING);
 				LogUtils.d("GET_Entity:" + result);
 				return result;
+			}else{
+				return ContentValue.ERROR_MSG+":"+result;
 			}
 		} catch (ClientProtocolException e) {
 			e.printStackTrace();

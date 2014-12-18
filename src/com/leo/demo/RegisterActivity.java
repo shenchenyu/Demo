@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 import com.leo.demo.bean.User;
 import com.leo.demo.bean.VerifyCode;
+import com.leo.demo.http.HttpHelper;
+import com.leo.demo.http.HttpHelper.HttpResult;
 import com.leo.demo.http.NetUtils;
 import com.leo.demo.ui.base.BaseTitleActivity;
 import com.leo.demo.utils.CommonUtil;
@@ -146,25 +148,23 @@ public class RegisterActivity extends BaseTitleActivity implements OnClickListen
 		user.setConfirmPassword(etVerivalCode.getText().toString());
 		//将对象转换成json字符串提交服务器
 		String json = CommonUtil.bean2Json(user);
-		new AsyncTask<String, Void, String>() {
+		new AsyncTask<String, Void,HttpResult>() {
 			@Override
-			protected String doInBackground(String... params) {
-				//创建网络连接对象
-				NetUtils net = new NetUtils();
-				LogUtils.d("user:"+params[1]);
-				return net.doPostOfHttpClient(params[0], params[1]);//发送请求
+			protected HttpResult doInBackground(String... params) {
+				return HttpHelper.post(params[0], params[1],params[2]);
 			}
 			@Override
-			protected void onPostExecute(String result) {
-				if(ContentValue.ERROR_MSG.equals(result)){
-					//服务器返回false
-					PromptManager.showToast(getApplicationContext(), "服务器异常");
+			protected void onPostExecute(HttpResult result) {
+				if(result!=null){
+					LogUtils.d("helper:"+result.getString());
 					return;
 				}
-				LogUtils.d("注册："+result);
-				goNext(CommonUtil.json2Bean(result, User.class));
+				if(result!=null&&result.getCode()==404){
+					return;
+				}
+				return;
 			}
-		}.execute(new String[]{url,json});
+		}.execute(new String[]{url,json,ContentValue.APPLICATION_JSON});
 	}
 	/**
 	 * 跳转下一步骤
