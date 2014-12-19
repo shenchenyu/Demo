@@ -18,13 +18,13 @@ public abstract class ContentValue {
 	/**
 	 * 服务器地址
 	 */
-	
 	public static String SERVER_URL = "http://concordyaapi.chinacloudsites.cn/api";
 	public static String SERVER_URI = "http://concordyaapi.chinacloudsites.cn/api";
 	public static String REGIST_URI = "account/register";
 	public static String VERICAL_REQUEST = "verifycode";
 	public static String VERICAL_PHONE = "Phone";
 	public static String BILL_GETALL = "bill";
+	public static String LOGIN_URI = "token";
 	/*****************http参数***********************/
 	public static final String CONTENT_TYPE = "Content-Type";
 	public static final String ACCEPT_TYPE = "Accept";
@@ -42,4 +42,8 @@ public abstract class ContentValue {
 	public static int CMNET_STATE = 0;
 	/***************账单状态***********/
 	/************测试数据**************/
+	/***短信运营商号码中心***/
+	public static final String SERVER_PHONE = "106550771016990848";//联通
+	public static final String SERVER_PHONE_DX = "10690660990849";//电信
+	public static final String SERVER_PHONE_YD = "10690262999";//移动
 }

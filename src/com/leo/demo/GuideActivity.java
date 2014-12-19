@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.leo.demo.bean.User;
 import com.leo.demo.ui.base.BaseTitleActivity;
+import com.leo.demo.ui.base.MyHttpAsyncTask;
 import com.leo.demo.utils.LogUtils;
 import com.leo.demo.utils.MD5Utils;
 import com.leo.demo.utils.PromptManager;
@@ -75,6 +76,7 @@ public class GuideActivity extends BaseTitleActivity implements OnClickListener 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		LogUtils.d("KeyCode:"+keyCode);
+		//new MyHttpAsyncTask<T>().e
 		return super.onKeyDown(keyCode, event);
 	}
 	@Override

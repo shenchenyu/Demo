@@ -3,7 +3,6 @@ package com.leo.demo.http;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.ParseException;
@@ -19,7 +18,6 @@ import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.protocol.SyncBasicHttpContext;
 import org.apache.http.util.EntityUtils;
-
 import com.leo.demo.utils.ContentValue;
 import com.leo.demo.utils.IOUtils;
 import com.leo.demo.utils.LogUtils;
@@ -39,7 +37,7 @@ public class HttpHelper {
 	/** post请求，获取返回字符串内容 */
 	public static HttpResult post(String url,String json,String type) {
 		HttpPost httpPost = new HttpPost(url);
-		LogUtils.d("HttpHelper:(url："+url+"json:+"+json+")");
+		LogUtils.d("HttpHelper:(url："+url+")(json:"+json+")");
 		StringEntity strEntity;
 		try {
 			strEntity = new StringEntity(json,ContentValue.ENCODING);
@@ -95,7 +93,6 @@ public class HttpHelper {
 			mHttpClient = httpClient;
 			mRequestBase = requestBase;
 		}
-
 		public int getCode() {
 			StatusLine status = mResponse.getStatusLine();
 			return status.getStatusCode();
