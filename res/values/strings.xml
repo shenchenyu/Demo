@@ -24,11 +24,13 @@
     <string name="bill_finished">完结</string>
     <!-- Welcome界面 -->
     <string name="tv_title_welcome">Welcome</string>
-    <!-- <string name="gv_txt_1">To Do</string>
+    <!--
+    <string name="gv_txt_1">To Do</string>
     <string name="gv_txt_2">SchedulePayment</string>
     <string name="gv_txt_3">  Set Up Company</string>
-    <string name="gv_txt_4">  View  Balance</string> -->
-     <string name="gv_txt_1">记一笔</string>
+    <string name="gv_txt_4">  View  Balance</string>
+    -->
+    <string name="gv_txt_1">记一笔</string>
     <string name="gv_txt_2">付款</string>
     <string name="gv_txt_3">公司设置</string>
     <string name="gv_txt_4">余额</string>
@@ -87,5 +89,11 @@
     <string name="com_adress">请选择地址</string>
     <string name="com_emill">请输入公司邮箱</string>
     <string name="com_notes">备注</string>
+    <string name="title_activity_recurring__invoice">Recurring_Invoice</string>
+    <string name="repeats">Repeats:</string>
+    <string name="enery">Enery :</string>
+    <string name="month">Month</string>
+    <string name="rpeat">Rpeat on :</string>
+    <string name="starts">Starts on :</string>
 
 </resources>

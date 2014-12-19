@@ -17,19 +17,25 @@
 
             <EditText
                 android:id="@+id/edit"
-                android:layout_width="96dp"
-                android:layout_height="wrap_content" >
-
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" >
             </EditText>
 
             <EditText
                 android:id="@+id/editT"
-                android:layout_width="match_parent"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dip"
-                android:ems="10" >
+                android:layout_weight="1" >
+            </EditText>
 
-                <requestFocus />
+            <EditText
+                android:id="@+id/editth"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dip"
+                android:layout_weight="1" >
             </EditText>
 
             <Button
@@ -37,9 +43,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/btn_bg"
+                 android:layout_marginLeft="40dip"
                 android:text="删除" />
         </LinearLayout>
-
     </com.leo.demo.utils.SideslipHorScrView>
 
 </LinearLayout>

@@ -27,6 +27,9 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
@@ -36,7 +39,7 @@ import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-public class InvoiceActivity extends Activity implements OnClickListener{
+public class InvoiceActivity extends Activity implements OnClickListener,OnCheckedChangeListener{
 	private static final String[] m={"1","2","3","4","其他"};
 	private RelativeLayout titleinvoice;
 	private Spinner spinner;
@@ -52,6 +55,8 @@ public class InvoiceActivity extends Activity implements OnClickListener{
 	private Itemadapter	itemadapter;
 	private LinearLayout notes;
 	private ScrollView scr;
+	private CheckBox checkbox;
+
 
 
 	@Override
@@ -74,6 +79,9 @@ public class InvoiceActivity extends Activity implements OnClickListener{
 		addmore = (Button) findViewById(R.id.addmore);
 		notes = (LinearLayout) findViewById(R.id.notes);
 		scr = (ScrollView) findViewById(R.id.scrollview);
+		checkbox = (CheckBox) findViewById(R.id.checkbox);
+		checkbox.setOnCheckedChangeListener(this);
+		addmore.setOnClickListener(this);
 		addmore.setOnClickListener(this);
 		imageview.setOnClickListener(this);
 		btnItem.setOnClickListener(this);
@@ -88,7 +96,7 @@ public class InvoiceActivity extends Activity implements OnClickListener{
 		//设置默认值
 		spinner.setVisibility(View.VISIBLE);
 		arrayList  = new ArrayList<String>();
-		arrayList.add("one");
+		arrayList.add("名称：");
 		listview = (ListView) findViewById(R.id.company);
 		itemadapter = new Itemadapter(this,arrayList,new com.leo.demo.adapter.Itemadapter.Delete() {
 
@@ -215,16 +223,16 @@ public class InvoiceActivity extends Activity implements OnClickListener{
 	}
 
 
-	class SpinnerSelectedListener implements OnItemSelectedListener{
 
-		public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
-				long arg3) {
+	
+
+	@Override
+	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+		// TODO Auto-generated method stub
+		if(isChecked){  
+			Intent intent = new Intent(context, Recurring_Invoice.class);
+			startActivity(intent);
 		}
-
-		public void onNothingSelected(AdapterView<?> arg0) {
-		}
-
-
 	}
 }
 
