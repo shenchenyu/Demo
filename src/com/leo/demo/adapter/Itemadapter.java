@@ -64,6 +64,8 @@ public class Itemadapter extends BaseAdapter{
 			holder.sideslipHorScrView = (SideslipHorScrView) convertView.findViewById(R.id.sideslipHorScrView);
 			holder.edit =  (EditText) convertView.findViewById(R.id.edit);
 			holder.editT =  (EditText) convertView.findViewById(R.id.editT);
+			
+			holder.edit3 =  (EditText) convertView.findViewById(R.id.editth);
 			holder.delete = (Button)convertView.findViewById(R.id.deleteitem);
 
 			convertView.setTag(holder);
@@ -88,6 +90,8 @@ public class Itemadapter extends BaseAdapter{
 //		edittext.setHint("项目：");
 
 		holder.editT.setHint("金额：");
+		
+		holder.edit3.setHint("数量：");
 
 		holder.delete.setOnClickListener(new OnClickListener() {
 
@@ -111,7 +115,7 @@ public class Itemadapter extends BaseAdapter{
 
 
 	class ViewHolder{
-		private EditText edit,editT;
+		private EditText edit,editT,edit3;
 		private Button delete;
 		private SideslipHorScrView sideslipHorScrView;
 		private LinearLayout linearlayout;
