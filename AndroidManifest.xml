@@ -31,9 +31,8 @@
         <activity android:name=".RegisterActivity" 
              android:configChanges="keyboard|screenLayout|screenSize"
             android:theme="@style/CustomTitleBar" >
-
+		</activity>
         <activity android:name="com.leo.demo.AccountPayable" >
-
         </activity>
         <activity
             android:name="com.leo.demo.RegisterActivity"
