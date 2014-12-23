@@ -8,7 +8,6 @@ import android.view.Window;
 import com.leo.demo.fragment.HomeFragment;
 
 public class MainActivity extends FragmentActivity {
-
 	private boolean TOKEN_FLAG = false;
 	private HomeFragment mHomeFragment;
 	@Override

@@ -2,6 +2,13 @@ package com.leo.demo.bean;
 
 public class Bill {
 	private int id ;
+	private	String vendor;
+	public String getVendor() {
+		return vendor;
+	}
+	public void setVendor(String vendor) {
+		this.vendor = vendor;
+	}
 	private String companyName;
 	private String invoiceData;
 	private String total;
@@ -81,10 +88,11 @@ public class Bill {
 	}
 	public void setItem(Bill_item item) {
 		this.item = item;
+	}
+	@Override
+	public String toString() {
+		return "Bill [id=" + id + ", companyName=" + companyName
+				+ ", invoiceData=" + invoiceData + ", total=" + total
+				+ ", category=" + category+ "]";
 	};
-	
-	
-	
-	
-	
 }

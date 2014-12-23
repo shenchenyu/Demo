@@ -230,7 +230,7 @@ public class InvoiceActivity extends Activity implements OnClickListener,OnCheck
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 		// TODO Auto-generated method stub
 		if(isChecked){  
-			Intent intent = new Intent(context, Recurring_Invoice.class);
+			Intent intent = new Intent(context, RecurringInvoice.class);
 			startActivity(intent);
 		}
 	}

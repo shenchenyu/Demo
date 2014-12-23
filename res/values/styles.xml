@@ -76,15 +76,18 @@
     <!-- 文本显示样式 -->
     <style name="tv_below_text">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">20dip</item>
         <item name="android:textSize">10sp</item>
+        <item name="android:gravity">center_vertical</item>
         <item name="android:textColor">@color/item_divider</item>
         <item name="android:singleLine">true</item>
     </style>
 
     <style name="tv_normal_text">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_height">20dip</item>
+         <item name="android:textSize">18sp</item>
         <item name="android:singleLine">true</item>
     </style>
 

@@ -8,13 +8,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 
-public class Recurring_Invoice extends Activity implements OnClickListener{
+public class RecurringInvoice extends Activity implements OnClickListener{
 	
 	private Spinner spinner;
 	private static final String[] m={"Monthly","Weekly","Monthly","Annually"};
 	private ArrayAdapter<String> adapter;
 	private Button schedule;
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

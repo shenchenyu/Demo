@@ -10,7 +10,6 @@ public class MyViewPager extends LazyViewPager {
 		super(context, attrs);
 		// TODO Auto-generated constructor stub
 	}
-
 	public MyViewPager(Context context) {
 		super(context);
 		// TODO Auto-generated constructor stub

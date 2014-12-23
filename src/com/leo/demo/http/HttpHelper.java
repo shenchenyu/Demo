@@ -27,22 +27,29 @@ import com.leo.demo.utils.StringUtils;
  * @author Scleo
  */
 public class HttpHelper {
-	
-	/** get请求，获取返回字符串内容 */
-	public static HttpResult get(String url,String type) {
+
+	/**
+	 * @param url
+	 *            访问get请求地址
+	 * @param type
+	 *            访问http头信息Content-type
+	 * @return
+	 */
+	public static HttpResult get(String url, String type) {
 		HttpGet httpGet = new HttpGet(url);
-		return execute(url, httpGet,type);
+		return execute(url, httpGet, type);
 	}
 
 	/** post请求，获取返回字符串内容 */
-	public static HttpResult post(String url,String json,String type) {
+	public static HttpResult post(String url, String json, String type) {
 		HttpPost httpPost = new HttpPost(url);
-		LogUtils.d("HttpHelper:(url："+url+")(json:"+json+")");
 		StringEntity strEntity;
 		try {
-			strEntity = new StringEntity(json,ContentValue.ENCODING);
-			httpPost.setEntity(strEntity);
-			return execute(url, httpPost,type);
+			if (!StringUtils.isEmpty(json)) {
+				strEntity = new StringEntity(json, ContentValue.ENCODING);
+				httpPost.setEntity(strEntity);
+			}
+			return execute(url, httpPost, type);
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 			return null;
@@ -50,30 +57,36 @@ public class HttpHelper {
 	}
 
 	/** 下载 */
-	public static HttpResult download(String url,String type) {
+	public static HttpResult download(String url, String type) {
 		HttpGet httpGet = new HttpGet(url);
-		return execute(url, httpGet,type);
+		return execute(url, httpGet, type);
 	}
 
 	/** 执行网络访问 */
-	private static HttpResult execute(String url, HttpRequestBase requestBase,String contentType) {
-		boolean isHttps = url.startsWith("https://");//判断是否需要采用https
+	private static HttpResult execute(String url, HttpRequestBase requestBase,
+			String contentType) {
+		boolean isHttps = url.startsWith("https://");// 判断是否需要采用https
 		AbstractHttpClient httpClient = HttpClientFactory.create(isHttps);
-		HttpContext httpContext = new SyncBasicHttpContext(new BasicHttpContext());
-		HttpRequestRetryHandler retryHandler = httpClient.getHttpRequestRetryHandler();//获取重试机制
+		HttpContext httpContext = new SyncBasicHttpContext(
+				new BasicHttpContext());
+		HttpRequestRetryHandler retryHandler = httpClient
+				.getHttpRequestRetryHandler();// 获取重试机制
 		requestBase.setHeader(ContentValue.CONTENT_TYPE, contentType);
-		requestBase.setHeader(ContentValue.ACCEPT_TYPE, ContentValue.APPLICATION_JSON);
+		requestBase.setHeader(ContentValue.ACCEPT_TYPE,
+				ContentValue.APPLICATION_JSON);
 		int retryCount = 0;
 		boolean retry = true;
 		while (retry) {
 			try {
-				HttpResponse response = httpClient.execute(requestBase, httpContext);//访问网络
+				HttpResponse response = httpClient.execute(requestBase,
+						httpContext);// 访问网络
 				if (response != null) {
 					return new HttpResult(response, httpClient, requestBase);
 				}
 			} catch (Exception e) {
 				IOException ioException = new IOException(e.getMessage());
-				retry = retryHandler.retryRequest(ioException, ++retryCount, httpContext);//把错误异常交给重试机制，以判断是否需要采取从事
+				retry = retryHandler.retryRequest(ioException, ++retryCount,
+						httpContext);// 把错误异常交给重试机制，以判断是否需要采取从事
 				LogUtils.e(e.getMessage());
 			}
 		}
@@ -88,11 +101,13 @@ public class HttpHelper {
 		private HttpClient mHttpClient;
 		private HttpRequestBase mRequestBase;
 
-		public HttpResult(HttpResponse response, HttpClient httpClient, HttpRequestBase requestBase) {
+		public HttpResult(HttpResponse response, HttpClient httpClient,
+				HttpRequestBase requestBase) {
 			mResponse = response;
 			mHttpClient = httpClient;
 			mRequestBase = requestBase;
 		}
+
 		public int getCode() {
 			StatusLine status = mResponse.getStatusLine();
 			return status.getStatusCode();

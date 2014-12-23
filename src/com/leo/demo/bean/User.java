@@ -9,6 +9,7 @@ public class User implements Serializable{
 	private String password;
 	private String confirmPassword;
 	private String access_token;
+	private	String grant_type;
 	private long expires;
 	private String email;
 	private String phone;
@@ -25,6 +26,19 @@ public class User implements Serializable{
 	}
 	public void setUserId(String userId) {
 		this.userId = userId;
+	}
+	public String getGrant_type() {
+		return grant_type;
+	}
+	public void setGrant_type(String grant_type) {
+		this.grant_type = grant_type;
+	}
+	public User(){}
+	public User(String username, String password, String grant_type) {
+		super();
+		this.username = username;
+		this.password = password;
+		this.grant_type = grant_type;
 	}
 	public String getUsername() {
 		return username;
@@ -74,4 +88,11 @@ public class User implements Serializable{
 	public void setDescription(String description) {
 		this.description = description;
 	}
+	@Override
+	public String toString() {
+		return "User [userId=" + userId + ", username=" + username
+				+ ", password=" + password + ", access_token=" + access_token
+				+ ", expires=" + expires + "]";
+	}
+	
 }

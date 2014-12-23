@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <color name="bottom_bg">#98cccccc</color>
     <color name="gv_item">#0099FF</color>
     <color name="bg_window">#ffe5e5e5</color>
     <color name="bg_page">#ffebebeb</color>

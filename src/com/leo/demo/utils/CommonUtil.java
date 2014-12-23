@@ -278,4 +278,17 @@ public class CommonUtil {
 		T t = gs.fromJson(result, clazz);
 		return t;
 	}
+	/**
+	 * 将字符型的毫米值转换成Date
+	 * @param mills
+	 * @return
+	 */
+	public static String formate2String(String mills){
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Long l = Long.parseLong(mills);
+		Date date;
+		date = new Date(l);
+		String format = sdf.format(date);
+		return format;
+	}
 }

@@ -3,8 +3,6 @@ package com.leo.demo.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.support.v4.view.PagerAdapter;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,8 +13,8 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 
 import com.leo.demo.R;
 import com.leo.demo.pager.BasePager;
-import com.leo.demo.pager.HomePager;
 import com.leo.demo.pager.CenterPager;
+import com.leo.demo.pager.HomePager;
 import com.leo.demo.pager.SettingPager;
 import com.leo.demo.ui.LazyViewPager.OnPageChangeListener;
 import com.leo.demo.ui.MyViewPager;

@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -22,7 +23,10 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.TextView;
 
+import com.leo.demo.http.HttpHelper;
+import com.leo.demo.http.HttpHelper.HttpResult;
 import com.leo.demo.utils.ContentValue;
+import com.leo.demo.utils.LogUtils;
 import com.leo.demo.utils.PromptManager;
 import com.leo.demo.utils.SharedPreferencesUtils;
 import com.leo.demo.utils.StringUtils;
@@ -54,7 +58,7 @@ public class WelcomeActivity extends Activity implements OnClickListener {
 	
 	
 	private void init() {
-		
+		test();
 		ct = getApplicationContext();
 		//4个导航内容
 		mGvWelcome = new String[] {
@@ -97,6 +101,22 @@ public class WelcomeActivity extends Activity implements OnClickListener {
 		mSignIn.setOnClickListener(this);
 		//注册
 		mSignUp.setOnClickListener(this);
+	}
+	private void test() {
+		String url = ContentValue.SERVER_URL+"/"+ContentValue.BILL_GETALL;
+		new AsyncTask<String, Void, HttpResult>(){
+			@Override
+			protected HttpResult doInBackground(String... params) {
+				LogUtils.d("http参数："+params[0]+","+params[1]);
+				//return HttpHelper.post(params[0], "", params[1]);
+				return HttpHelper.get(params[0],params[1]);
+			}
+			@Override
+			protected void onPostExecute(HttpResult result) {
+				LogUtils.d("result:"+result.getCode()+"----json:"+result.getString());
+			}
+		}.execute(url,ContentValue.APPLICATION_JSON);
+		
 	}
 	class WelcomeAdapter extends BaseAdapter {
 		private TextView tv;
