@@ -34,7 +34,7 @@ public class HomeFragment extends BaseFragment {
 	private RadioButton rb_tab_home;
 	@ViewInject(R.id.rb_tab_center)
 	private RadioButton rb_tab_report;
-	@ViewInject(R.id.rb_tab_setting)
+	@ViewInject(R.id.rb_tab_right)
 	private RadioButton rb_tab_setting;
 	private List<BasePager> mLists = new ArrayList<BasePager>();
 

@@ -58,7 +58,6 @@ public class WelcomeActivity extends Activity implements OnClickListener {
 	
 	
 	private void init() {
-		test();
 		ct = getApplicationContext();
 		//4个导航内容
 		mGvWelcome = new String[] {
@@ -102,25 +101,8 @@ public class WelcomeActivity extends Activity implements OnClickListener {
 		//注册
 		mSignUp.setOnClickListener(this);
 	}
-	private void test() {
-		String url = ContentValue.SERVER_URL+"/"+ContentValue.BILL_GETALL;
-		new AsyncTask<String, Void, HttpResult>(){
-			@Override
-			protected HttpResult doInBackground(String... params) {
-				LogUtils.d("http参数："+params[0]+","+params[1]);
-				//return HttpHelper.post(params[0], "", params[1]);
-				return HttpHelper.get(params[0],params[1]);
-			}
-			@Override
-			protected void onPostExecute(HttpResult result) {
-				LogUtils.d("result:"+result.getCode()+"----json:"+result.getString());
-			}
-		}.execute(url,ContentValue.APPLICATION_JSON);
-		
-	}
 	class WelcomeAdapter extends BaseAdapter {
 		private TextView tv;
-
 		@Override
 		public int getCount() {
 			return mGvWelcome.length;

@@ -6,11 +6,11 @@ import java.util.List;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
@@ -56,11 +56,23 @@ public class HomePager extends BasePager implements OnClickListener, OnItemClick
 		ViewUtils.inject(this, view);
 		bt_add_bill.setOnClickListener(this);
 		mLvBills.setOnItemClickListener(this);
-		mLvBills.setOnItemClickListener(new OnItemClickListener() {
+		mLvBills.setOnScrollListener(new OnScrollListener() {
 			@Override
-			public void onItemClick(AdapterView<?> parent, View view,
-					int position, long id) {
+			public void onScrollStateChanged(AbsListView view, int scrollState) {
 				
+			}
+			@Override
+			public void onScroll(AbsListView view, int firstVisibleItem,
+					int visibleItemCount, int totalItemCount) {
+				//if(firstVisibleItem==)
+				if(firstVisibleItem==0){
+					
+				}else if(mListBills!=null&&totalItemCount==mListBills.size()){
+					
+				}
+				LogUtils.d("firstItem:"+firstVisibleItem);
+				LogUtils.d("visibleItemCount:"+visibleItemCount);
+				LogUtils.d("totalItemCount:"+totalItemCount);
 			}
 		});
 		initTitleBar(view);
@@ -167,7 +179,7 @@ public class HomePager extends BasePager implements OnClickListener, OnItemClick
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		
+		LogUtils.d("第"+position+"个被点击了");
 	}
 	/***
 	 *	ListView数据适配器
