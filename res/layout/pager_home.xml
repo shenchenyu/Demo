@@ -45,10 +45,10 @@
                android:text="@string/str_quick_add"
                />
         </LinearLayout>
-        <ListView
+        <com.leo.demo.ui.PullListView
             android:id="@+id/lv_home_bill"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" >
-        </ListView>
+        </com.leo.demo.ui.PullListView>
     </RelativeLayout>
 </LinearLayout>

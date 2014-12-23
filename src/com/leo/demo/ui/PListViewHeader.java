@@ -30,9 +30,9 @@ public class PListViewHeader extends LinearLayout {
 	private long ROTATE_DURATION_TIME = 180;
 
 	private  int mState = STATE_NORMAL;//默认状态 
-	private static final int STATE_NORMAL = 0;
-	private static final int STATE_REFRESHING = 1;
-	private static final int STATE_READY = 2;
+	public static final int STATE_NORMAL = 0;
+	public static final int STATE_REFRESHING = 1;
+	public static final int STATE_READY = 2;
 	public PListViewHeader(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		init(context);

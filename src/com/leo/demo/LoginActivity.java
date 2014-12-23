@@ -33,7 +33,6 @@ public class LoginActivity extends BaseTitleActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, super.layout);// 设置titleBar
-																				// 布局文件
 		initView();
 	}
 
@@ -68,8 +67,9 @@ public class LoginActivity extends BaseTitleActivity {
 		new AsyncTask<String, Void, HttpResult>() {
 			@Override
 			protected HttpResult doInBackground(String... params) {
-				return HttpHelper.post(params[0], params[1],
+				HttpResult result = HttpHelper.post(params[0], params[1],
 						ContentValue.APPLICATION_JSON);
+				return result;
 			}
 			@Override
 			protected void onPostExecute(HttpResult result) {

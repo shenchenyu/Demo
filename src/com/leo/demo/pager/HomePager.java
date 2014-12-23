@@ -9,8 +9,6 @@ import android.os.AsyncTask;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
@@ -18,24 +16,31 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.leo.demo.AddBillActivity;
 import com.leo.demo.InvoiceActivity;
 import com.leo.demo.R;
 import com.leo.demo.bean.Bill;
+import com.leo.demo.bean.Bill1;
+import com.leo.demo.http.HttpHelper;
 import com.leo.demo.http.HttpHelper.HttpResult;
+import com.leo.demo.ui.PullListView;
+import com.leo.demo.ui.PullListView.IPListViewListener;
 import com.leo.demo.utils.CommonUtil;
+import com.leo.demo.utils.ContentValue;
 import com.leo.demo.utils.LogUtils;
+import com.leo.demo.utils.SharedPreferencesUtils;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 
-public class HomePager extends BasePager implements OnClickListener, OnItemClickListener {
+public class HomePager extends BasePager implements OnClickListener, OnItemClickListener, IPListViewListener {
 	@ViewInject(R.id.bt_add_bill)
 	private Button bt_add_bill;
 	@ViewInject(R.id.lv_home_bill)
-	private ListView mLvBills;
+	private PullListView mLvBills;
 	@ViewInject(R.id.ll_no_data)
 	private LinearLayout mLLNoData;
 	@ViewInject(R.id.tv_link_add_bill)
@@ -55,28 +60,17 @@ public class HomePager extends BasePager implements OnClickListener, OnItemClick
 		View view = View.inflate(ct, R.layout.pager_home, null);
 		ViewUtils.inject(this, view);
 		bt_add_bill.setOnClickListener(this);
-		mLvBills.setOnItemClickListener(this);
-		mLvBills.setOnScrollListener(new OnScrollListener() {
-			@Override
-			public void onScrollStateChanged(AbsListView view, int scrollState) {
-				
-			}
-			@Override
-			public void onScroll(AbsListView view, int firstVisibleItem,
-					int visibleItemCount, int totalItemCount) {
-				//if(firstVisibleItem==)
-				if(firstVisibleItem==0){
-					
-				}else if(mListBills!=null&&totalItemCount==mListBills.size()){
-					
-				}
-				LogUtils.d("firstItem:"+firstVisibleItem);
-				LogUtils.d("visibleItemCount:"+visibleItemCount);
-				LogUtils.d("totalItemCount:"+totalItemCount);
-			}
-		});
+		mLvBills.setPullLoadEnable(true);
+		mLvBills.setPullRefreshEnable(true);
+		mLvBills.setListViewListener(this);
 		initTitleBar(view);
 		return view;
+	}
+	protected void refresh() {
+		//mLvBills.stopRefresh();
+	}
+	protected void loadMore() {
+		mLvBills.stopLoadMore();
 	}
 	/**
 	 * 初始化数据
@@ -84,33 +78,13 @@ public class HomePager extends BasePager implements OnClickListener, OnItemClick
 	@Override
 	public void initData() {
 		mListBills = new ArrayList<Bill>();
-		Bill bill;
-		for (int i = 0; i <10; i++) {
-			bill = new Bill();
-			if(i==0){
-				bill.setCompanyName("德丰财富");
-				bill.setCategory("项目费用");
-			}else if(i%2==0){
-				bill.setCompanyName("性质探索");
-				bill.setCategory("挖掘费用");
-			}else{
-				bill.setCompanyName("小马跳河");
-				bill.setCategory("救援费用");
-			}
-			bill.setTotal("120"+1+".00");
-			bill.setId(i+1);
-			bill.setDueDate(System.currentTimeMillis()+"");
-			bill.setInvoiceData(System.currentTimeMillis()+"");
-			mListBills.add(bill);
-		}
 		//mListBills = getBills();
 		// 1 首先判断本地缓存里面是否有数据。
 		// 2 如果有数据的话，首先展示缓存里面的数据。。如果没有缓存数据。就直接展示对话框。 
 		/*if(getCacheData()!=null){
-			
-		}
+		}*/
 		// 3然后在去链接服务器。如果服务器有数据，就必须从服务器获取数据，然后替换本地的数据。
-		getLastesData();*/
+		getLastesData();
 		if(mListBills!=null){
 			mLLNoData.setVisibility(View.GONE);
 			mLvBills.setVisibility(View.VISIBLE);
@@ -127,32 +101,42 @@ public class HomePager extends BasePager implements OnClickListener, OnItemClick
 	 * 获取服务器请求数据
 	 */
 	private void getLastesData() {
-		
+		final String url = ContentValue.SERVER_URL+"/"+ContentValue.BILL_GETALL;
 		new AsyncTask<String, Void, HttpResult>(){
 			@Override
 			protected HttpResult doInBackground(String... params) {
-				return null;
+				HttpResult result = HttpHelper.get(url, ContentValue.APPLICATION_JSON);
+				parseData(result.getString());
+				return result;
 			}
-
 			@Override
 			protected void onPostExecute(HttpResult result) {
-				if(result==null)
-					return;
-				parseData(result.getString());
+				mListBills = null;
+				/*if(result==null)
+					return;*/
 			}
-		};
+		}.execute();
 	}
 	/**
 	 * 封装数据
 	 */
 	protected void parseData(String result) {
-		
+		SharedPreferencesUtils.saveString(ct, "json", result);
+		LogUtils.d("数据："+result);
+		String bill = result;
+		LogUtils.d("bill:"+bill);
+		String str = bill.substring(1, bill.length()-1);
+		LogUtils.d("str:"+str);
+		Gson gson = new Gson();
+		List<Bill1> listBill  = gson.fromJson(bill, new TypeToken<ArrayList<Bill1>>(){}.getType());
+		if(listBill!=null){
+			
+		}
 	}
 	private List<Bill> getCacheData() {
-		
 		return mCacheBills;
 	}
-	List<Bill> result;
+	List<Bill1> result;
 	/**
 	 * 获取页面显示数据
 	 * @return
@@ -233,5 +217,15 @@ public class HomePager extends BasePager implements OnClickListener, OnItemClick
 		public Button delete;
 		public CheckBox cb;
 		public ImageView icon;
+	}
+	@Override
+	public void onRefresh() {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void onLoadingMore() {
+		// TODO Auto-generated method stub
+		
 	}
 }
