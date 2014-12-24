@@ -9,15 +9,18 @@ public abstract class ContentValue {
 	//Sp文件中记录是否已登录
 	public static final String SPFILE_TOKEN = "auth_token";
 	public static String[] testValue = new String[]{
-			"2014-01-31	记-1	库存现金 付款￥555.00",
-			"2014-01-31	记-1	库存现金 付款￥666.00",
-			"2014-01-31	记-1	库存现金 收入￥777.00",
-			"2014-01-31	记-1	库存现金 收入￥888.00",
+		"2014-01-31	记-1	库存现金 付款￥555.00",
+		"2014-01-31	记-1	库存现金 付款￥666.00",
+		"2014-01-31	记-1	库存现金 收入￥777.00",
+		"2014-01-31	记-1	库存现金 收入￥888.00",
 	};
 	public static String ENCODING = "utf-8";
 	/**
 	 * 服务器地址
 	 */
+	public static String NEWSERVER_URL = "http://concordyaapi.chinacloudsites.cn//api";
+
+	public static String BILL_URL = "bill";
 	public static String SERVER_URL = "http://concordyaapi.chinacloudsites.cn/api";
 	public static String SERVER_URI = "http://concordyaapi.chinacloudsites.cn/api";
 	public static String REGIST_URI = "account/register";

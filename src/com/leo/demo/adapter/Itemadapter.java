@@ -30,7 +30,7 @@ public class Itemadapter extends BaseAdapter{
 		this.arr = arr;
 		arr = new ArrayList<String>();  
 		for(int i=0;i<arr.size();i++){    //listview初始化
-			arr.add("");  
+			arr.add("申晨宇");  
 		}  
 	}  
 
@@ -88,10 +88,35 @@ public class Itemadapter extends BaseAdapter{
 		
 		//这里testData.get(position).get("title1"))，其实就是从list集合(testData)中取出对应索引的map，然后再根据键值对取值
 //		edittext.setHint("项目：");
-
-		holder.editT.setHint("金额：");
 		
-		holder.edit3.setHint("数量：");
+		holder.edit.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				holder.edit.getText().toString().trim();
+				
+			}
+		});
+		holder.editT.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				holder.edit.getText().toString().trim();
+				
+			}
+		});
+		holder.edit3.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				holder.edit.getText().toString().trim();
+				
+			}
+		});
+
 
 		holder.delete.setOnClickListener(new OnClickListener() {
 

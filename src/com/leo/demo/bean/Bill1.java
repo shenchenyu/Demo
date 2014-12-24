@@ -10,87 +10,70 @@ public class Bill1 {
 	private String description;
 	private String dueDate;
 	private boolean isRecurring;
-	private List<Item> items;
+	private List<Itemlist> items;
 	private String lastUpdatedOn;
 	private int status;
 	private Vendor vendor;
-	class Category{
-		private String id;
-		private String name;
-		public String getId() {
-			return id;
-		}
-		public void setId(String id) {
-			this.id = id;
-		}
-		public String getName() {
-			return name;
-		}
-		public void setName(String name) {
-			this.name = name;
-		}
+	private String amount;
+	
+	
+	public Bill1(){};
+	
+	
+	public Bill1(String id, String billDate, Category category,
+			String createOn, String description, String dueDate,
+			boolean isRecurring, List<Itemlist> items, String lastUpdatedOn,
+			int status, Vendor vendor,String amount) {
+		super();
+		this.id = id;
+		this.billDate = billDate;
+		this.category = category;
+		this.createOn = createOn;
+		this.description = description;
+		this.dueDate = dueDate;
+		this.isRecurring = isRecurring;
+		this.items = items;
+		this.lastUpdatedOn = lastUpdatedOn;
+		this.status = status;
+		this.vendor = vendor;
+		this.amount = amount;
 	}
-	class Item{
-		private String billId;
-		private String id;
-		private String name;
-		private int pricePerUnit;
-		private int quantity;
-		private int total;
-		public String getBillId() {
-			return billId;
-		}
-		public void setBillId(String billId) {
-			this.billId = billId;
-		}
-		public String getId() {
-			return id;
-		}
-		public void setId(String id) {
-			this.id = id;
-		}
-		public String getName() {
-			return name;
-		}
-		public void setName(String name) {
-			this.name = name;
-		}
-		public int getPricePerUnit() {
-			return pricePerUnit;
-		}
-		public void setPricePerUnit(int pricePerUnit) {
-			this.pricePerUnit = pricePerUnit;
-		}
-		public int getQuantity() {
-			return quantity;
-		}
-		public void setQuantity(int quantity) {
-			this.quantity = quantity;
-		}
-		public int getTotal() {
-			return total;
-		}
-		public void setTotal(int total) {
-			this.total = total;
-		}
-		
+	public Bill1(String billDate, Category category,
+			String createOn, String description, String dueDate,
+			boolean isRecurring, List<Itemlist> items, String lastUpdatedOn,
+			int status, Vendor vendor,String amount) {
+		super();
+		this.billDate = billDate;
+		this.category = category;
+		this.createOn = createOn;
+		this.description = description;
+		this.dueDate = dueDate;
+		this.isRecurring = isRecurring;
+		this.items = items;
+		this.lastUpdatedOn = lastUpdatedOn;
+		this.status = status;
+		this.vendor = vendor;
+		this.amount = amount;
 	}
-	class Vendor{
-		private String id;
-		private String name;
-		public String getId() {
-			return id;
-		}
-		public void setId(String id) {
-			this.id = id;
-		}
-		public String getName() {
-			return name;
-		}
-		public void setName(String name) {
-			this.name = name;
-		}
+	public Bill1(String amount,String billDate, String dueDate) {
+		super();
+		this.billDate = billDate;
+		this.dueDate = dueDate;
+		this.amount = amount;
 	}
+	
+	
+	
+	public String getAmount() {
+		return amount;
+	}
+
+
+	public void setAmount(String amount) {
+		this.amount = amount;
+	}
+
+
 	public String getId() {
 		return id;
 	}
@@ -134,10 +117,10 @@ public class Bill1 {
 		this.isRecurring = isRecurring;
 	}
 	
-	public List<Item> getItems() {
+	public List<Itemlist> getItems() {
 		return items;
 	}
-	public void setItems(List<Item> items) {
+	public void setItems(List<Itemlist> items) {
 		this.items = items;
 	}
 	public String getLastUpdatedOn() {

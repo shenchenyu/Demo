@@ -6,13 +6,24 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 import com.leo.demo.adapter.Itemadapter;
+import com.leo.demo.bean.Bill1;
+import com.leo.demo.bean.Bill_item;
+import com.leo.demo.http.HttpHelper;
+import com.leo.demo.http.HttpHelper.HttpResult;
+import com.leo.demo.utils.CommonUtil;
+import com.leo.demo.utils.ContentValue;
+import com.leo.demo.utils.PromptManager;
+import com.lidroid.xutils.util.LogUtils;
 import android.app.Activity;
+import android.content.ClipData.Item;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -30,6 +41,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
@@ -51,11 +63,21 @@ public class InvoiceActivity extends Activity implements OnClickListener,OnCheck
 	private ImageView mImg;
 	protected String mUri;
 	private ArrayList<String> arrayList;
-	private Button btnItem,addmore;
+	private Button btnItem,addmore,company;
 	private Itemadapter	itemadapter;
 	private LinearLayout notes;
 	private ScrollView scr;
 	private CheckBox checkbox;
+	private Bill1 bill;
+	private Bill_item item;
+	private EditText billDate,dueDate,amount;	
+	private EditText createOn,description,lastUpdatedOn;
+	private boolean isRecurring;
+	private List<Item> items;
+	
+	
+
+
 
 
 
@@ -67,19 +89,27 @@ public class InvoiceActivity extends Activity implements OnClickListener,OnCheck
 		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,
 				R.layout.layout_invoice_title_bar);// 设置titleBar 布局文件
 		init();	
+		bill_value();
 
-	};
+	}
+
+	
 
 	private void init() {
 		context = this;
+		billDate = (EditText) findViewById(R.id.billdata);
+		dueDate = (EditText) findViewById(R.id.dueDate);
+		amount = (EditText) findViewById(R.id.total);
 		mImg = (ImageView) findViewById(R.id.ivShow);
 		btnItem = (Button) findViewById(R.id.btnitem);
 		spinner = (Spinner) findViewById(R.id.companySpinner);
 		imageview = (ImageView) findViewById(R.id.camera);
 		addmore = (Button) findViewById(R.id.addmore);
-		notes = (LinearLayout) findViewById(R.id.notes);
+		notes = (LinearLayout) findViewById(R.id.linearlayout);
 		scr = (ScrollView) findViewById(R.id.scrollview);
 		checkbox = (CheckBox) findViewById(R.id.checkbox);
+		company = (Button) findViewById(R.id.company);
+		company.setOnClickListener(this);
 		checkbox.setOnCheckedChangeListener(this);
 		addmore.setOnClickListener(this);
 		addmore.setOnClickListener(this);
@@ -97,7 +127,7 @@ public class InvoiceActivity extends Activity implements OnClickListener,OnCheck
 		spinner.setVisibility(View.VISIBLE);
 		arrayList  = new ArrayList<String>();
 		arrayList.add("名称：");
-		listview = (ListView) findViewById(R.id.company);
+		listview = (ListView) findViewById(R.id.listview_company);
 		itemadapter = new Itemadapter(this,arrayList,new com.leo.demo.adapter.Itemadapter.Delete() {
 
 			@Override
@@ -116,6 +146,18 @@ public class InvoiceActivity extends Activity implements OnClickListener,OnCheck
 
 
 	}
+	
+	/**
+	 * 
+	 */
+	public void bill_value() { 
+		String bd = billDate.getText().toString().trim();
+		String dd = dueDate.getText().toString().trim();
+		String at = amount.getText().toString().trim();
+		bill = new Bill1(bd,dd,at);
+
+	
+	};
 
 	public void setListViewHeightBasedOnChildren(ListView listView) {
 
@@ -160,6 +202,9 @@ public class InvoiceActivity extends Activity implements OnClickListener,OnCheck
 		case R.id.addmore:
 			addmore.setVisibility(View.GONE);
 			notes.setVisibility(View.VISIBLE);
+			break;
+		case R.id.company:
+			checkVerifyCode();
 			break;
 
 		default:
@@ -222,9 +267,60 @@ public class InvoiceActivity extends Activity implements OnClickListener,OnCheck
 		return BitmapFactory.decodeFile(imagePath);
 	}
 
+	/*** 校验验证码 */
+	private void checkVerifyCode() {
+
+		String json = CommonUtil.bean2Json(bill);
+		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"+json);
+		String url = ContentValue.NEWSERVER_URL + "/"
+				+ ContentValue.BILL_URL;
 
 
-	
+		new AsyncTask<String, Void, HttpResult>() {
+			@Override
+			protected void onPreExecute() {
+
+
+
+
+			};
+
+			@Override
+			protected HttpResult doInBackground(String... params) {
+				return HttpHelper.post(params[0], params[1],ContentValue.APPLICATION_JSON);
+			}
+
+			@Override
+			protected void onPostExecute(HttpResult result) {
+
+				LogUtils.d("服务器返回校验结果：" + result);
+
+
+				if (result != null && result.getCode() == 200) {
+
+
+					PromptManager.showToast(
+							InvoiceActivity.this,
+							getResources().getString(
+									R.string.str_send_success));
+
+
+				} else {
+					// 请求异常，关闭加载框 ，关闭网络连接
+
+					PromptManager.showToast(
+							InvoiceActivity.this,
+							getResources().getString(
+									R.string.str_send_success));
+
+					return;
+				}
+			}
+		}.execute(url, json);
+	}
+
+
+
 
 	@Override
 	public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
