@@ -1,8 +1,9 @@
 package com.leo.demo.bean;
 
-class Vendor{
+public class Vendor{
 	private String id;
 	private String name;
+
 
 
 
@@ -10,6 +11,7 @@ class Vendor{
 		super();
 		this.id = id;
 		this.name = name;
+	
 	}
 	public String getId() {
 		return id;
@@ -23,4 +25,7 @@ class Vendor{
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	
+	
 }

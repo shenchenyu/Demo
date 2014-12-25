@@ -1,13 +1,15 @@
 package com.leo.demo.bean;
 
-class Category{
+public class Category{
 	private String id;
 	private String name;
+	private String parentId;
 		
-	public Category(String id, String name) {
+	public Category(String id, String name, String parentId) {
 		super();
 		this.id = id;
 		this.name = name;
+		this.parentId = parentId;
 	}
 	public String getId() {
 		return id;
@@ -21,4 +23,11 @@ class Category{
 	public void setName(String name) {
 		this.name = name;
 	}
+	public String getParentId() {
+		return parentId;
+	}
+	public void setParentId(String parentId) {
+		this.parentId = parentId;
+	}
+	
 }

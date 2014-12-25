@@ -1,15 +1,24 @@
 package com.leo.demo.bean;
 
-class Itemlist{
+public class Itemlist{
 	private String billId;
 	private String id;
 	private String name;
-	private int pricePerUnit;
+	private String pricePerUnit;
 	private int quantity;
-	private int total;
+	private String total;
+	public Itemlist(String name,int quantity,String total){
+		super();
+		this.name = name;
+		this.quantity = quantity;
+		this.total = total;
+	}
 	
-	public Itemlist(String billId, String id, String name, int pricePerUnit,
-			int quantity, int total) {
+	
+	
+	
+	public Itemlist(String billId, String id, String name, String pricePerUnit,
+			int quantity, String total) {
 		super();
 		this.billId = billId;
 		this.id = id;
@@ -36,10 +45,10 @@ class Itemlist{
 	public void setName(String name) {
 		this.name = name;
 	}
-	public int getPricePerUnit() {
+	public String getPricePerUnit() {
 		return pricePerUnit;
 	}
-	public void setPricePerUnit(int pricePerUnit) {
+	public void setPricePerUnit(String pricePerUnit) {
 		this.pricePerUnit = pricePerUnit;
 	}
 	public int getQuantity() {
@@ -48,10 +57,10 @@ class Itemlist{
 	public void setQuantity(int quantity) {
 		this.quantity = quantity;
 	}
-	public int getTotal() {
+	public String getTotal() {
 		return total;
 	}
-	public void setTotal(int total) {
+	public void setTotal(String total) {
 		this.total = total;
 	}
 	

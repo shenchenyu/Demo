@@ -10,7 +10,9 @@ import java.util.List;
 import java.util.Locale;
 import com.leo.demo.adapter.Itemadapter;
 import com.leo.demo.bean.Bill1;
-import com.leo.demo.bean.Bill_item;
+import com.leo.demo.bean.Category;
+import com.leo.demo.bean.Itemlist;
+import com.leo.demo.bean.Vendor;
 import com.leo.demo.http.HttpHelper;
 import com.leo.demo.http.HttpHelper.HttpResult;
 import com.leo.demo.utils.CommonUtil;
@@ -18,7 +20,6 @@ import com.leo.demo.utils.ContentValue;
 import com.leo.demo.utils.PromptManager;
 import com.lidroid.xutils.util.LogUtils;
 import android.app.Activity;
-import android.content.ClipData.Item;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -52,7 +53,8 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 public class InvoiceActivity extends Activity implements OnClickListener,OnCheckedChangeListener{
-	private static final String[] m={"1","2","3","4","其他"};
+	private static final String[] m={"Vendor 0","Vendor 1","Vendor 2","Vendor 3","Vendor 4"};
+	private static final String[] n ={"c9f1cc92-f260-467d-9e5b-de4a9d03aa4f","1c7acdb6-ca7e-4d9b-8e20-5fafe469eabb","c38fc53c-240e-42b0-bb67-34f6279ac5c6","c17e31cc-4bbc-4fe4-bf5b-0e0ecc7c3973","2fe09e7d-b17d-44eb-978b-8c81630fe642"};
 	private RelativeLayout titleinvoice;
 	private Spinner spinner;
 	private ArrayAdapter<String> adapter; 
@@ -69,17 +71,13 @@ public class InvoiceActivity extends Activity implements OnClickListener,OnCheck
 	private ScrollView scr;
 	private CheckBox checkbox;
 	private Bill1 bill;
-	private Bill_item item;
+	private Itemlist item;
 	private EditText billDate,dueDate,amount;	
 	private EditText createOn,description,lastUpdatedOn;
 	private boolean isRecurring;
-	private List<Item> items;
-	
-	
-
-
-
-
+	private Vendor vendor;
+	private Category category;
+	private String vendorname,vendorid;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -89,17 +87,17 @@ public class InvoiceActivity extends Activity implements OnClickListener,OnCheck
 		getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE,
 				R.layout.layout_invoice_title_bar);// 设置titleBar 布局文件
 		init();	
-		bill_value();
+
 
 	}
 
-	
+
 
 	private void init() {
 		context = this;
 		billDate = (EditText) findViewById(R.id.billdata);
 		dueDate = (EditText) findViewById(R.id.dueDate);
-		amount = (EditText) findViewById(R.id.total);
+		amount = (EditText) findViewById(R.id.amount);
 		mImg = (ImageView) findViewById(R.id.ivShow);
 		btnItem = (Button) findViewById(R.id.btnitem);
 		spinner = (Spinner) findViewById(R.id.companySpinner);
@@ -109,6 +107,8 @@ public class InvoiceActivity extends Activity implements OnClickListener,OnCheck
 		scr = (ScrollView) findViewById(R.id.scrollview);
 		checkbox = (CheckBox) findViewById(R.id.checkbox);
 		company = (Button) findViewById(R.id.company);
+		
+		category = new Category("9607ea59-ea15-45cf-b7ca-bb4a39117d64", "Cat 3", "");
 		company.setOnClickListener(this);
 		checkbox.setOnCheckedChangeListener(this);
 		addmore.setOnClickListener(this);
@@ -122,7 +122,25 @@ public class InvoiceActivity extends Activity implements OnClickListener,OnCheck
 		//将adapter 添加到spinner中
 		spinner.setAdapter(adapter);
 		//添加事件Spinner事件监听  
-		spinner.setOnItemSelectedListener(new SpinnerSelectedListener());
+		spinner.setOnItemSelectedListener(new OnItemSelectedListener() {
+
+
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view,
+					int position, long id) {
+				// TODO Auto-generated method stub
+					vendorid = n[position];
+					vendorname  = m[position];
+					vendor = new Vendor(vendorid, vendorname);
+					
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<?> parent) {
+				// TODO Auto-generated method stub
+
+			}
+		});
 		//设置默认值
 		spinner.setVisibility(View.VISIBLE);
 		arrayList  = new ArrayList<String>();
@@ -146,17 +164,22 @@ public class InvoiceActivity extends Activity implements OnClickListener,OnCheck
 
 
 	}
-	
+
 	/**
 	 * 
 	 */
 	public void bill_value() { 
-		String bd = billDate.getText().toString().trim();
-		String dd = dueDate.getText().toString().trim();
-		String at = amount.getText().toString().trim();
-		bill = new Bill1(bd,dd,at);
+		String bd = billDate.getText().toString();
+		String dd = dueDate.getText().toString();
+		String at = amount.getText().toString();
+		bill = new Bill1(bd,at,dd);
+		bill.setVendor(vendor);
+		bill.setCategory(category);
+		item = new Itemlist("水电费",10, "8888");
+		List<Itemlist> items = new ArrayList<Itemlist>();
+		items.add(item);
+		bill.setItems(items);
 
-	
 	};
 
 	public void setListViewHeightBasedOnChildren(ListView listView) {
@@ -195,7 +218,7 @@ public class InvoiceActivity extends Activity implements OnClickListener,OnCheck
 			startActivityForResult(intent, REQUEST_CODE_TAKE_PICTURE);
 			break;
 		case R.id.btnitem:
-			itemadapter.arr.add("");
+			itemadapter.arr.add(""); 
 			itemadapter.notifyDataSetChanged(); 
 			setListViewHeightBasedOnChildren(listview);
 			break;
@@ -269,7 +292,7 @@ public class InvoiceActivity extends Activity implements OnClickListener,OnCheck
 
 	/*** 校验验证码 */
 	private void checkVerifyCode() {
-
+		bill_value();
 		String json = CommonUtil.bean2Json(bill);
 		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"+json);
 		String url = ContentValue.NEWSERVER_URL + "/"
@@ -295,25 +318,28 @@ public class InvoiceActivity extends Activity implements OnClickListener,OnCheck
 
 				LogUtils.d("服务器返回校验结果：" + result);
 
+				if (result != null && result.getCode() == 201) {
+										PromptManager.showToast(
+												InvoiceActivity.this,
+												getResources().getString(R.string.str_send_success));
 
-				if (result != null && result.getCode() == 200) {
-
-
-					PromptManager.showToast(
-							InvoiceActivity.this,
-							getResources().getString(
-									R.string.str_send_success));
+					
 
 
 				} else {
 					// 请求异常，关闭加载框 ，关闭网络连接
+					int code = result.getCode();
+					String code1 =result.getString();
+					
+					LogUtils.d("服务器返回校验结果：" + code);
+					LogUtils.d("服务器返回校验结果：" + code1);
 
 					PromptManager.showToast(
 							InvoiceActivity.this,
 							getResources().getString(
-									R.string.str_send_success));
+									R.string.str_send_failure));
 
-					return;
+
 				}
 			}
 		}.execute(url, json);

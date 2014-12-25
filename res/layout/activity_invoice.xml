@@ -87,7 +87,7 @@
                 android:text="Total:" />
 
             <EditText
-                android:id="@+id/total"
+                android:id="@+id/amount"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:ems="10" />

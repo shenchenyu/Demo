@@ -55,7 +55,7 @@ public class Bill1 {
 		this.vendor = vendor;
 		this.amount = amount;
 	}
-	public Bill1(String amount,String billDate, String dueDate) {
+	public Bill1(String billDate, String amount,String dueDate) {
 		super();
 		this.billDate = billDate;
 		this.dueDate = dueDate;

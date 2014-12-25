@@ -69,6 +69,7 @@
     <string name="str_ev_repass">请确认密码</string>
     <string name="str_ev_msgcode">短信验证码</string>
     <string name="str_send_success">发送成功</string>
+    <string name="str_send_failure">发送失败</string>
     <string name="str_server_error">服务器异常</string>
     <string name="str_send_failed">发送失败,稍后重试</string>
     <string name="str_regist_success">注册成功</string>
