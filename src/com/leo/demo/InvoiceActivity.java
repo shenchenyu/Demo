@@ -107,7 +107,7 @@ public class InvoiceActivity extends Activity implements OnClickListener,OnCheck
 		scr = (ScrollView) findViewById(R.id.scrollview);
 		checkbox = (CheckBox) findViewById(R.id.checkbox);
 		company = (Button) findViewById(R.id.company);
-		
+
 		category = new Category("9607ea59-ea15-45cf-b7ca-bb4a39117d64", "Cat 3", "");
 		company.setOnClickListener(this);
 		checkbox.setOnCheckedChangeListener(this);
@@ -129,10 +129,10 @@ public class InvoiceActivity extends Activity implements OnClickListener,OnCheck
 			public void onItemSelected(AdapterView<?> parent, View view,
 					int position, long id) {
 				// TODO Auto-generated method stub
-					vendorid = n[position];
-					vendorname  = m[position];
-					vendor = new Vendor(vendorid, vendorname);
-					
+				vendorid = n[position];
+				vendorname  = m[position];
+				vendor = new Vendor(vendorid, vendorname);
+
 			}
 
 			@Override
@@ -319,20 +319,20 @@ public class InvoiceActivity extends Activity implements OnClickListener,OnCheck
 				LogUtils.d("服务器返回校验结果：" + result);
 
 				if (result != null && result.getCode() == 201) {
-										PromptManager.showToast(
-												InvoiceActivity.this,
-												getResources().getString(R.string.str_send_success));
+					PromptManager.showToast(
+							InvoiceActivity.this,
+							getResources().getString(R.string.str_send_success));
 
-					
+					int code = result.getCode();
+					String code1 =result.getString();
+
+					LogUtils.d("服务器返回校验结果：" + code);
+					LogUtils.d("服务器返回校验结果：" + code1);
 
 
 				} else {
 					// 请求异常，关闭加载框 ，关闭网络连接
-					int code = result.getCode();
-					String code1 =result.getString();
-					
-					LogUtils.d("服务器返回校验结果：" + code);
-					LogUtils.d("服务器返回校验结果：" + code1);
+
 
 					PromptManager.showToast(
 							InvoiceActivity.this,

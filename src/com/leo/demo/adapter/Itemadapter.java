@@ -30,7 +30,7 @@ public class Itemadapter extends BaseAdapter{
 		this.arr = arr;
 		arr = new ArrayList<String>();  
 		for(int i=0;i<arr.size();i++){    //listview初始化
-			arr.add("申晨宇");  
+			arr.add("");  
 		}  
 	}  
 
@@ -62,10 +62,10 @@ public class Itemadapter extends BaseAdapter{
 			convertView = mInflater.inflate(R.layout.item, null);
 			//通过上面layout得到的view来获取里面的具体控件
 			holder.sideslipHorScrView = (SideslipHorScrView) convertView.findViewById(R.id.sideslipHorScrView);
-			holder.edit =  (EditText) convertView.findViewById(R.id.edit);
-			holder.editT =  (EditText) convertView.findViewById(R.id.editT);
+			holder.itemname =  (EditText) convertView.findViewById(R.id.itemname);
+			holder.itemnumber =  (EditText) convertView.findViewById(R.id.itemnumber);
 			
-			holder.edit3 =  (EditText) convertView.findViewById(R.id.editth);
+			holder.itemprice =  (EditText) convertView.findViewById(R.id.itemprice);
 			holder.delete = (Button)convertView.findViewById(R.id.deleteitem);
 
 			convertView.setTag(holder);
@@ -74,14 +74,14 @@ public class Itemadapter extends BaseAdapter{
 			holder = (ViewHolder) convertView.getTag();
 		}
 		
-		holder.edit.setHint(arr.get(position));
+		holder.itemname.setHint(arr.get(position));
 		
-		holder.edit.setOnFocusChangeListener(new OnFocusChangeListener() {  
+		holder.itemname.setOnFocusChangeListener(new OnFocusChangeListener() {  
 			@Override  
 			public void onFocusChange(View v, boolean hasFocus) {  
 				// TODO Auto-generated method stub  
 				if(arr.size()>0){  
-					arr.set(position, holder.edit.getText().toString());  
+					arr.set(position, holder.itemname.getText().toString());  
 				}  
 			}  
 		});  
@@ -89,30 +89,30 @@ public class Itemadapter extends BaseAdapter{
 		//这里testData.get(position).get("title1"))，其实就是从list集合(testData)中取出对应索引的map，然后再根据键值对取值
 //		edittext.setHint("项目：");
 		
-		holder.edit.setOnClickListener(new OnClickListener() {
+		holder.itemname.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				holder.edit.getText().toString().trim();
+				holder.itemname.getText().toString().trim();
 				
 			}
 		});
-		holder.editT.setOnClickListener(new OnClickListener() {
+		holder.itemnumber.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				holder.edit.getText().toString().trim();
+				holder.itemnumber.getText().toString().trim();
 				
 			}
 		});
-		holder.edit3.setOnClickListener(new OnClickListener() {
+		holder.itemprice.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				holder.edit.getText().toString().trim();
+				holder.itemprice.getText().toString().trim();
 				
 			}
 		});
@@ -140,7 +140,7 @@ public class Itemadapter extends BaseAdapter{
 
 
 	class ViewHolder{
-		private EditText edit,editT,edit3;
+		private EditText itemname,itemnumber,itemprice;
 		private Button delete;
 		private SideslipHorScrView sideslipHorScrView;
 		private LinearLayout linearlayout;

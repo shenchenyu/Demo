@@ -40,7 +40,7 @@
             android:text="@string/enery" />
 
         <EditText
-            android:id="@+id/edit"
+            android:id="@+id/Interval"
             android:layout_width="138dp"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -98,7 +98,7 @@
             android:text="@string/starts" />
 
         <EditText
-            android:id="@+id/edit2"
+            android:id="@+id/startDate"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
             android:layout_weight="0.81"
@@ -153,7 +153,7 @@
             android:text="Occurences" />
 
         <EditText
-            android:id="@+id/edit4"
+            android:id="@+id/endDate"
             android:layout_width="80dp"
             android:layout_height="40dp"
             android:layout_below="@+id/edit3"
@@ -161,7 +161,7 @@
             android:hint="11111111111" />
 
         <EditText
-            android:id="@+id/edit3"
+            android:id="@+id/endOnTimes"
             android:layout_width="80dp"
             android:layout_height="40dp"
             android:layout_below="@+id/text2"
