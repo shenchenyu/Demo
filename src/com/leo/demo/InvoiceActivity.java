@@ -12,6 +12,7 @@ import com.leo.demo.adapter.Itemadapter;
 import com.leo.demo.bean.Bill1;
 import com.leo.demo.bean.Category;
 import com.leo.demo.bean.Itemlist;
+import com.leo.demo.bean.RecurringSetting;
 import com.leo.demo.bean.Vendor;
 import com.leo.demo.http.HttpHelper;
 import com.leo.demo.http.HttpHelper.HttpResult;
@@ -77,7 +78,9 @@ public class InvoiceActivity extends Activity implements OnClickListener,OnCheck
 	private boolean isRecurring;
 	private Vendor vendor;
 	private Category category;
-	private String vendorname,vendorid;
+	private String vendorname,vendorid,name,number,price;
+	private RecurringSetting rs;
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -168,19 +171,45 @@ public class InvoiceActivity extends Activity implements OnClickListener,OnCheck
 	/**
 	 * 
 	 */
-	public void bill_value() { 
-		String bd = billDate.getText().toString();
-		String dd = dueDate.getText().toString();
-		String at = amount.getText().toString();
-		bill = new Bill1(bd,at,dd);
-		bill.setVendor(vendor);
-		bill.setCategory(category);
-		item = new Itemlist("水电费",10, "8888");
-		List<Itemlist> items = new ArrayList<Itemlist>();
-		items.add(item);
-		bill.setItems(items);
-
-	};
+		public void bill_value(Intent intent) { 
+			rs = (RecurringSetting) intent.getExtras().getSerializable("RS");
+			System.out.println("接受的RecurringSetting数据:"+rs.toString());
+			String bd = billDate.getText().toString();
+			String dd = dueDate.getText().toString();
+			String at = amount.getText().toString();
+			bill = new Bill1(bd,at,dd);
+			bill.setVendor(vendor);
+			bill.setCategory(category);
+			item = new Itemlist("name",20, "2222");
+			List<Itemlist> items = new ArrayList<Itemlist>();
+			items.add(item);
+			bill.setItems(items);
+			bill.setRecurringSetting(rs);
+	
+			System.out.println("接受的数据:"+bill.toString());
+	
+	
+		};
+		
+		
+		public void bill_valuetoo() { 
+			
+			String bd = billDate.getText().toString();
+			String dd = dueDate.getText().toString();
+			String at = amount.getText().toString();
+			bill = new Bill1(bd,at,dd);
+			bill.setVendor(vendor);
+			bill.setCategory(category);
+			item = new Itemlist("name",20, "2222");
+			List<Itemlist> items = new ArrayList<Itemlist>();
+			items.add(item);
+			bill.setItems(items);
+			
+	
+			System.out.println("接受的数据:"+bill.toString());
+	
+	
+		};
 
 	public void setListViewHeightBasedOnChildren(ListView listView) {
 
@@ -227,6 +256,25 @@ public class InvoiceActivity extends Activity implements OnClickListener,OnCheck
 			notes.setVisibility(View.VISIBLE);
 			break;
 		case R.id.company:
+			int length = itemadapter.arr.size();//listView的条数
+			for(int i = 0;i<length;i++){
+				LinearLayout content = (LinearLayout) listview.getChildAt(i);
+				EditText itemname = (EditText) content.findViewById(R.id.itemname);
+				EditText itemnumber = (EditText) content.findViewById(R.id.itemnumber);
+				EditText itemprice = (EditText) content.findViewById(R.id.itemprice);
+
+				name = itemname.getText().toString();
+				number = itemnumber.getText().toString();
+				price = itemprice.getText().toString();
+
+
+
+				System.out.println("第"+i+"个itemname："+itemname.getText().toString());
+				System.out.println("第"+i+"个itemnumber："+itemnumber.getText().toString());
+				System.out.println("第"+i+"个itemname："+itemprice.getText().toString());
+
+			}
+
 			checkVerifyCode();
 			break;
 
@@ -241,10 +289,27 @@ public class InvoiceActivity extends Activity implements OnClickListener,OnCheck
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
+		System.out.println("数据返回了");
 
+		if(resultCode == 90 ){
+//			rs = (RecurringSetting) data.getExtras().getSerializable("RS");
+//			System.out.println("接受的RecurringSetting数据:"+rs.toString());
+//			String bd = billDate.getText().toString();
+//			String dd = dueDate.getText().toString();
+//			String at = amount.getText().toString();
+//			bill = new Bill1(bd,at,dd);
+//			bill.setVendor(vendor);
+//			bill.setCategory(category);
+//			item = new Itemlist("name",20, "2222");
+//			List<Itemlist> items = new ArrayList<Itemlist>();
+//			items.add(item);
+//			bill.setItems(items);
+//			bill.setRecurringSetting(rs);
+//
+//			System.out.println("接受的数据:"+bill.toString());
 
-
-		if (resultCode == Activity.RESULT_OK) {  
+						bill_value(data);
+		}else if (resultCode == Activity.RESULT_OK) {  
 			String sdStatus = Environment.getExternalStorageState();  
 			if (!sdStatus.equals(Environment.MEDIA_MOUNTED)) { // 检测sd是否可用  
 				Log.i("TestFile",  
@@ -275,7 +340,9 @@ public class InvoiceActivity extends Activity implements OnClickListener,OnCheck
 				}  
 			}  
 			mImg.setImageBitmap(bitmap);// 将图片显示在ImageView里  
-		}  
+		}
+
+
 
 
 	}
@@ -292,7 +359,7 @@ public class InvoiceActivity extends Activity implements OnClickListener,OnCheck
 
 	/*** 校验验证码 */
 	private void checkVerifyCode() {
-		bill_value();
+		//		bill_value();
 		String json = CommonUtil.bean2Json(bill);
 		System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"+json);
 		String url = ContentValue.NEWSERVER_URL + "/"
@@ -339,6 +406,12 @@ public class InvoiceActivity extends Activity implements OnClickListener,OnCheck
 							getResources().getString(
 									R.string.str_send_failure));
 
+					int code = result.getCode();
+					String code1 =result.getString();
+
+					LogUtils.d("服务器返回校验结果：" + code);
+					LogUtils.d("服务器返回校验结果：" + code1);
+
 
 				}
 			}
@@ -353,8 +426,14 @@ public class InvoiceActivity extends Activity implements OnClickListener,OnCheck
 		// TODO Auto-generated method stub
 		if(isChecked){  
 			Intent intent = new Intent(context, RecurringInvoice.class);
-			startActivity(intent);
+			//			startActivity(intent);
+			startActivityForResult(intent, 21);//请求码为-1
+		}else if(!isChecked){
+			bill_valuetoo();
+			
 		}
 	}
-}
 
+
+
+}

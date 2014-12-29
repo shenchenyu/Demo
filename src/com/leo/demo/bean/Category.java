@@ -29,5 +29,10 @@ public class Category{
 	public void setParentId(String parentId) {
 		this.parentId = parentId;
 	}
+	@Override
+	public String toString() {
+		return "Category [id=" + id + ", name=" + name + ", parentId="
+				+ parentId + "]";
+	}
 	
 }

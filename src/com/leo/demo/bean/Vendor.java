@@ -25,6 +25,10 @@ public class Vendor{
 	public void setName(String name) {
 		this.name = name;
 	}
+	@Override
+	public String toString() {
+		return "Vendor [id=" + id + ", name=" + name + "]";
+	}
 	
 	
 	

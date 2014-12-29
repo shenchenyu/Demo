@@ -15,6 +15,7 @@ public class Bill1 {
 	private int status;
 	private Vendor vendor;
 	private String amount;
+	private RecurringSetting recurringSetting;
 	
 	
 	public Bill1(){};
@@ -64,6 +65,18 @@ public class Bill1 {
 	
 	
 	
+	
+	
+	public RecurringSetting getRecurringSetting() {
+		return recurringSetting;
+	}
+
+
+	public void setRecurringSetting(RecurringSetting recurringSetting) {
+		this.recurringSetting = recurringSetting;
+	}
+
+
 	public String getAmount() {
 		return amount;
 	}

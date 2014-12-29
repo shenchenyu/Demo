@@ -20,26 +20,14 @@
         android:layout_height="wrap_content"
         android:text="Category" />
 
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp" >
-
-        <EditText
-            android:id="@+id/edit"
-            android:layout_width="fill_parent"
-            android:layout_height="40dp"
-            android:layout_alignParentRight="true" />
-
         <Spinner
             android:id="@+id/companySpinner"
-            android:layout_width="102dp"
-            android:layout_height="40dp"
+            android:layout_width="fill_parent"
+            android:layout_height="55dp"
             android:layout_alignBottom="@+id/edit"
             android:layout_alignParentTop="true"
             android:layout_alignRight="@+id/edit"
             android:src="@drawable/bl_button_d" />
-    </RelativeLayout>
 
     <CheckBox
         android:id="@+id/checkbox"

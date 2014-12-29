@@ -1,6 +1,8 @@
 package com.leo.demo.bean;
 
-public class RecurringSetting {
+import java.io.Serializable;
+
+public class RecurringSetting  implements Serializable{
 	
 	private int RepeatBy;
 	public int Interval;
@@ -65,7 +67,14 @@ public class RecurringSetting {
 		EndOnTimes = endOnTimes;
 	}
     
-    
+    public RecurringSetting(){}
+	@Override
+	public String toString() {
+		return "RecurringSetting [RepeatBy=" + RepeatBy + ", Interval="
+				+ Interval + ", RepeatOn=" + RepeatOn + ", StartDate="
+				+ StartDate + ", EndsBy=" + EndsBy + ", EndDate=" + EndDate
+				+ ", EndOnTimes=" + EndOnTimes + "]";
+	};
     
  
 

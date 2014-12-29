@@ -3,6 +3,7 @@ package com.leo.demo;
 import com.leo.demo.bean.RecurringSetting;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,6 +22,7 @@ public class RecurringInvoice extends Activity implements OnClickListener{
 	private Button schedule;
 	private EditText interval,startDate,endDate,endontimes;
 	private RecurringSetting rs;
+	private int code;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -30,6 +32,11 @@ public class RecurringInvoice extends Activity implements OnClickListener{
 
 	private void init() {
 		// TODO Auto-generated method stub
+		interval = (EditText) findViewById(R.id.Interval);
+		startDate = (EditText) findViewById(R.id.startDate);
+		endDate = (EditText) findViewById(R.id.endDate);
+		endontimes = (EditText) findViewById(R.id.endOnTimes);
+		
 		spinner = (Spinner) findViewById(R.id.Spinner);
 		schedule = (Button) findViewById(R.id.schedulebtn);
 		schedule.setOnClickListener(this);
@@ -47,7 +54,7 @@ public class RecurringInvoice extends Activity implements OnClickListener{
 					public void onItemSelected(AdapterView<?> parent,
 							View view, int position, long id) {
 						// TODO Auto-generated method stub
-						int code = position+1;
+						code = position+1;
 						
 					}
 
@@ -63,10 +70,34 @@ public class RecurringInvoice extends Activity implements OnClickListener{
 
 	@Override
 	public void onClick(View v) {
-		// TODO Auto-generated method stub
-		this.finish();
+		rsvalue();
 	}
 
-
+	/**
+	 * 
+	 */
+	public void rsvalue() {
+		rs = new RecurringSetting();
+		String ones = interval.getText().toString();
+		System.out.println("------------------"+ones);
+		int one = Integer.parseInt(interval.getText().toString());
+		String two = startDate.getText().toString();
+		String three = endDate.getText().toString();
+	    int four= Integer.parseInt(endontimes.getText().toString());
+	    rs.setInterval(one);
+	    rs.setStartDate(two);
+	    rs.setEndDate(three);
+	    rs.setEndOnTimes(four);
+	    rs.setRepeatBy(code);
+	    rs.setEndsBy(1);
+	    rs.setRepeatOn(1);
+	    Intent intent = getIntent();
+	    Bundle bundle = new Bundle();
+	    bundle.putSerializable("RS", rs);
+	    intent.putExtras(bundle);
+	    setResult(90, intent);//响应码
+	    System.out.println("即将发送的数据:"+rs.toString());
+	    finish();
+	}
 	
 }
